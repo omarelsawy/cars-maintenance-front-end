@@ -1,22 +1,12 @@
 import Container from 'react-bootstrap/Container';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import Maintenance from '../components/Maintenance';
 
 const Home = () => {
-    const token = localStorage.getItem("token");
-    const navigate = useNavigate();
-  
-    useEffect(() => {
-
-        if(!token){
-            navigate('/login');
-        }
-
-    });
 
     return (
         <Container>
             Home
+            <Maintenance />
         </Container>
     )
 

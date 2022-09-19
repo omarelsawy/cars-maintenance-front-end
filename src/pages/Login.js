@@ -1,9 +1,19 @@
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import {useState} from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+
+    const token = localStorage.getItem('token');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(token){
+            navigate('/home');
+        }
+    });
 
     const [ formData, setFormData ] = useState(
         { email: "", password: "" }
@@ -24,7 +34,9 @@ const Login = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log('gg');
+        let resToken = 'value';
+        localStorage.setItem("token", resToken);
+        navigate('/home');
     }
 
     return (
