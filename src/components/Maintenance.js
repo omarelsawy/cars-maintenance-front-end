@@ -2,41 +2,54 @@ import { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import SingleMaintenance from './SingleMaintenance';
 import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
 
 const Maintenance = () => {
     
     const [ maintenanceArr, setMaintenanceArr ] = useState([]);
+    
+    async function fetchMaintenance() {
+        let response = await fetch('http://localhost:3001/maintenance');
+        let responseJson = await response.json();
 
-    useEffect(() => {
-
-        const maintenanceRes = [
-            { id: 1, date: '2022-09-18', car: {id: 1, name: 'peugeot'} },
-            { id: 2, date: '2022-09-18', car: {id: 2, name: 'Nissan'} }
-        ];
+        const maintenanceRes = responseJson.data.maintenance;
 
         setMaintenanceArr(maintenanceRes);
+    }
 
+    useEffect(() => {
+        fetchMaintenance();
     }, []);
 
     const handleAddMaintenance = () => {
-        setMaintenanceArr( (prevMaintenanceArr) => {
+        fetch('http://localhost:3001/maintenance', {
+            method: 'post',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({
+             "carId": '632c3cc27c0569d3871b37bf'
+            })
+        });
+
+        fetchMaintenance();
+
+        /* setMaintenanceArr( (prevMaintenanceArr) => {
             return [...prevMaintenanceArr ,
                 { id: 3, date: '2022-09-18', car: {id: 2, name: 'Nissan'} }                
             ];
-        } )
+        } ) */
     }
 
     const handleDeleteMaintenance = (id) => {
-        let newArr = maintenanceArr.filter( (maintenance) => maintenance.id !== id )
+        let newArr = maintenanceArr.filter( (maintenance) => maintenance._id !== id )
         setMaintenanceArr(newArr)
     }
 
     return (
         
-        <div>
+        <Col>
         <Button onClick={handleAddMaintenance}>add Maintenance</Button>
 
-        <Table striped bordered hover>
+        <Table striped bordered hover className='mt-3'>
             <thead>
                 <tr>
                     <th>#</th>
@@ -47,17 +60,17 @@ const Maintenance = () => {
             </thead>
             <tbody>
 
-                {maintenanceArr.map((maintenance) =>{
+                {maintenanceArr.map((maintenance, index) =>{
                     return (
-                        <SingleMaintenance key={maintenance.id} maintenance={ maintenance } 
-                            action = {<Button onClick={ () => handleDeleteMaintenance(maintenance.id)}>delete</Button>}
+                        <SingleMaintenance key={index} maintenance={ maintenance } index={index + 1}
+                            action = {<Button onClick={ () => handleDeleteMaintenance(maintenance._id)}>delete</Button>}
                         />
                     )
                 })}
                 
             </tbody>
         </Table>
-        </div>        
+        </Col>        
 
     )
 
