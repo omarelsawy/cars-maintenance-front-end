@@ -36,10 +36,10 @@ const Maintenance = () => {
         fetchMaintenance();
     }, []);
 
-    const handleDeleteMaintenance = (id) => {
+    /* const handleDeleteMaintenance = (id) => {
         let newArr = maintenanceArr.filter( (maintenance) => maintenance._id !== id )
         setMaintenanceArr(newArr)
-    }
+    } */
 
     return (
         
@@ -54,16 +54,13 @@ const Maintenance = () => {
                     <th>#</th>
                     <th>date</th>
                     <th>car</th>
-                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
 
                 {maintenanceArr.map((maintenance, index) =>{
                     return (
-                        <SingleMaintenance key={index} maintenance={ maintenance } index={index + 1}
-                            action = {<Button onClick={ () => handleDeleteMaintenance(maintenance._id)}>delete</Button>}
-                        />
+                        <SingleMaintenance key={index} maintenance={ maintenance } index={index + 1}/>
                     )
                 })}
                 
