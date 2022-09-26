@@ -3,18 +3,32 @@ import Table from 'react-bootstrap/Table';
 import SingleMaintenance from './SingleMaintenance';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
+import { useNavigate } from 'react-router-dom';
 
 const Maintenance = () => {
-    
+
+    const navigate = useNavigate();
     const [ maintenanceArr, setMaintenanceArr ] = useState([]);
     
     async function fetchMaintenance() {
-        let response = await fetch('http://localhost:3001/maintenance');
+        let response = await fetch('http://localhost:3001/maintenance',{
+            headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
+        });
         let responseJson = await response.json();
+        let status = response.status;
 
-        const maintenanceRes = responseJson.data.maintenance;
-
-        setMaintenanceArr(maintenanceRes);
+        if(status === 200){
+            const maintenanceRes = responseJson?.data?.maintenance;
+            setMaintenanceArr(maintenanceRes);
+        }
+        else if(status === 401){
+            localStorage.removeItem("token");
+            navigate('/login');
+        }
+        else{
+            let error = responseJson?.data?.error
+            error && alert(error);
+        }
     }
 
     useEffect(() => {
