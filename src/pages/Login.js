@@ -32,11 +32,31 @@ const Login = () => {
 
     }    
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        let resToken = 'value';
-        localStorage.setItem("token", resToken);
-        navigate('/home');
+
+        let response = await fetch('http://localhost:3001/users/get-token', {
+            method: 'post',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({
+             "email": formData.email,
+             "password": formData.password
+            })
+        });
+
+        let status = response.status;
+        let responseJson = await response.json();
+        const token = responseJson?.data?.token;
+
+        if(status === 200 && token){
+            localStorage.setItem("token", token);
+            navigate('/home');
+        }
+        else{
+            let error = responseJson?.data?.error
+            error ? alert(error) : alert('not authorized')
+        }
+        
     }
 
     return (
