@@ -3,7 +3,8 @@ import Table from 'react-bootstrap/Table';
 import SingleMaintenance from './SingleMaintenance';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import {API_URL} from '../utils/Constant';
 
 const Maintenance = () => {
 
@@ -11,7 +12,7 @@ const Maintenance = () => {
     const [ maintenanceArr, setMaintenanceArr ] = useState([]);
     
     async function fetchMaintenance() {
-        let response = await fetch('http://localhost:3001/maintenance',{
+        let response = await fetch(`${API_URL}/maintenance`,{
             headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
         });
         let responseJson = await response.json();
@@ -35,24 +36,6 @@ const Maintenance = () => {
         fetchMaintenance();
     }, []);
 
-    const handleAddMaintenance = () => {
-        fetch('http://localhost:3001/maintenance', {
-            method: 'post',
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({
-             "carId": '632c3cc27c0569d3871b37bf'
-            })
-        });
-
-        fetchMaintenance();
-
-        /* setMaintenanceArr( (prevMaintenanceArr) => {
-            return [...prevMaintenanceArr ,
-                { id: 3, date: '2022-09-18', car: {id: 2, name: 'Nissan'} }                
-            ];
-        } ) */
-    }
-
     const handleDeleteMaintenance = (id) => {
         let newArr = maintenanceArr.filter( (maintenance) => maintenance._id !== id )
         setMaintenanceArr(newArr)
@@ -61,7 +44,9 @@ const Maintenance = () => {
     return (
         
         <Col>
-        <Button onClick={handleAddMaintenance}>add Maintenance</Button>
+        <Link to={'/maintenance/add'}>
+            <Button>add Maintenance</Button>
+        </Link>
 
         <Table striped bordered hover className='mt-3'>
             <thead>

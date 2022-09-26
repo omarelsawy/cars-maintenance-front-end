@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {API_URL} from '../utils/Constant';
 
 const Login = () => {
 
@@ -11,7 +12,7 @@ const Login = () => {
 
     useEffect(() => {
         if(token){
-            navigate('/home');
+            navigate('/');
         }
     });
 
@@ -35,7 +36,7 @@ const Login = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        let response = await fetch('http://localhost:3001/users/get-token', {
+        let response = await fetch(`${API_URL}/users/get-token`, {
             method: 'post',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify({
@@ -50,7 +51,7 @@ const Login = () => {
 
         if(status === 200 && token){
             localStorage.setItem("token", token);
-            navigate('/home');
+            navigate('/');
         }
         else{
             let error = responseJson?.data?.error
