@@ -5,7 +5,7 @@ import {API_URL} from '../utils/Constant';
 
 const AddMaintenance = () => {
 
-    const handleAddMaintenance = () => {
+    /* const handleAddMaintenance = () => {
         fetch(`${API_URL}/maintenance`, {
             method: 'post',
             headers: {'Content-Type':'application/json'},
@@ -13,7 +13,7 @@ const AddMaintenance = () => {
              "carId": '632c3cc27c0569d3871b37bf'
             })
         });
-    }
+    } */
 
     return (
         <>
