@@ -91,7 +91,6 @@ const AddMaintenance = () => {
 
                 <Col lg='4'>
                     <Select
-                        value={formData.carId}
                         onChange={handleCarChange}
                         options={cars.map(car=>{
                             return {'value': car._id, 'label': car.name}
