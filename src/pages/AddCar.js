@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import {API_URL} from '../utils/Constant';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Col } from 'react-bootstrap';
 
 const AddCar = () => {
     
@@ -63,10 +64,12 @@ const AddCar = () => {
             <Row className='m-3 float-end' style={{ width: '80%' }}>
                 <Form onSubmit={handleSubmit}>
 
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control onChange={handleChange} name = "name" value={formData.name} required></Form.Control>
-                    </Form.Group>
+                    <Col lg='5'>
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>Name</Form.Label>
+                            <Form.Control onChange={handleChange} name = "name" value={formData.name} required></Form.Control>
+                        </Form.Group>
+                    </Col>
 
                     <Button className='mt-3' variant="primary" type="submit">Save</Button>
 

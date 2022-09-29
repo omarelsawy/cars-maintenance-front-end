@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {API_URL} from '../utils/Constant';
+import { Col, Row } from 'react-bootstrap';
 
 const Login = () => {
 
@@ -61,15 +62,14 @@ const Login = () => {
     }
 
     return (
-        <Container>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} className='h-100 d-flex flex-column align-items-center justify-content-center'>
 
-                <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Group controlId="formBasicEmail" className='mb-3'>
                     <Form.Label>Email</Form.Label>
                     <Form.Control onChange={handleChange} name = "email" value={formData.email} type="email" required></Form.Control>
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="fromBasicPassword">
+                <Form.Group controlId="fromBasicPassword" className='mb-3'>
                     <Form.Label>Password</Form.Label>
                     <Form.Control onChange={handleChange} name = "password" value={formData.password} type="password" required></Form.Control>
                 </Form.Group>
@@ -77,7 +77,6 @@ const Login = () => {
                 <Button variant="primary" type="submit">Login</Button>
 
             </Form>
-        </Container>
     )
 
 }

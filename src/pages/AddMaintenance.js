@@ -7,6 +7,7 @@ import Select from 'react-select';
 import {API_URL} from '../utils/Constant';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Col } from 'react-bootstrap';
 
 const AddMaintenance = () => {
 
@@ -88,12 +89,15 @@ const AddMaintenance = () => {
                 
             <Form onSubmit={handleSubmit}>
 
-                <Select
-                    onChange={handleCarChange}
-                    options={cars.map(car=>{
-                        return {'value': car._id, 'label': car.name}
-                    })}
-                />
+                <Col lg='4'>
+                    <Select
+                        value={formData.carId}
+                        onChange={handleCarChange}
+                        options={cars.map(car=>{
+                            return {'value': car._id, 'label': car.name}
+                        })}
+                    />
+                </Col>
 
                 <Button className='mt-3' variant="primary" type="submit">Save</Button>
 
