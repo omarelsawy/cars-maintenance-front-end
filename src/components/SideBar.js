@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 const SideBar = () => {
     return (
 
-        <ProSidebar breakPoint='xl' toggled={true} className='position-fixed'>
+        <ProSidebar className='sidebar'>
         <Menu iconShape="square">
             <MenuItem icon={<FaGem />}>
                 Dashboard
