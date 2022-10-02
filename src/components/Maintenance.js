@@ -17,7 +17,11 @@ const Maintenance = ({ maintenanceArr }) => {
 
                 {maintenanceArr.map((maintenance, index) =>{
                     return (
-                        <SingleMaintenance key={index} maintenance={ maintenance } index={index + 1}/>
+                        <tr key={index}>
+                            <td>{ index+1 }</td>
+                            <td>{ new Date(maintenance.createdAt).toLocaleDateString() }</td>
+                            <td>{ maintenance.car.name }</td>
+                        </tr> 
                     )
                 })}
                 

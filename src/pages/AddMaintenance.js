@@ -14,7 +14,7 @@ const AddMaintenance = () => {
     const navigate = useNavigate();
 
     const [ formData, setFormData ] = useState(
-        { carId: "" }
+        { carId: "", price: "", description: "" }
     );
     const [ cars, setCars ] = useState([]);
 
@@ -54,7 +54,9 @@ const AddMaintenance = () => {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify({
-             "carId": formData.carId
+             "carId": formData.carId,
+             "price": formData.price,
+             "description": formData.description
             })
         });
 
@@ -79,7 +81,20 @@ const AddMaintenance = () => {
                 'carId': selected.value
             };
         })
-    } 
+    }
+
+    const handleChange = (event) => {
+
+        const { name, value } = event.target
+
+        setFormData(prevFormDate => {
+            return { 
+                ...prevFormDate,
+                [name]: value
+            };
+        })
+
+    }
 
     return (
         <>
@@ -96,6 +111,20 @@ const AddMaintenance = () => {
                             return {'value': car._id, 'label': car.name}
                         })}
                     />
+                </Col>
+
+                <Col lg='4' className='mt-3'>
+                <Form.Group controlId="formBasicPrice" className='mb-3'>
+                    <Form.Label>Price</Form.Label>
+                    <Form.Control onChange={handleChange} name = "price" value={formData.price}></Form.Control>
+                </Form.Group>
+                </Col>
+
+                <Col lg='4' className='mt-3'>
+                <Form.Group controlId="formBasicDescription" className='mb-3'>
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control onChange={handleChange} value={formData.description} name="description" as="textarea" rows={3} />
+                </Form.Group>
                 </Col>
 
                 <Button className='mt-3' variant="primary" type="submit">Save</Button>
