@@ -1,7 +1,14 @@
+import { Button } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
-import SingleMaintenance from './SingleMaintenance';
+import { useNavigate } from 'react-router-dom';
 
 const Maintenance = ({ maintenanceArr }) => {
+
+    const navigate = useNavigate();
+
+    const handleDetails = (id) => {
+        navigate(`/maintenance/${id}`);
+    }
 
     return (
         
@@ -9,8 +16,9 @@ const Maintenance = ({ maintenanceArr }) => {
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>date</th>
-                    <th>car</th>
+                    <th>Date</th>
+                    <th>Car</th>
+                    <th>Details</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,6 +29,7 @@ const Maintenance = ({ maintenanceArr }) => {
                             <td>{ index+1 }</td>
                             <td>{ new Date(maintenance.createdAt).toLocaleDateString() }</td>
                             <td>{ maintenance.car.name }</td>
+                            <td><Button onClick={() => handleDetails(maintenance._id)}>details</Button></td>
                         </tr> 
                     )
                 })}
