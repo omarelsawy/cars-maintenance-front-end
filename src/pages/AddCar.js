@@ -13,7 +13,7 @@ const AddCar = () => {
     const navigate = useNavigate();
 
     const [ formData, setFormData ] = useState(
-        { name: "" }
+        { name: "", type: "", subType: "", color: "", model: "", numberPlate: "" }
     );
 
     const handleChange = (event) => {
@@ -29,8 +29,9 @@ const AddCar = () => {
 
     } 
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleSubmit = async (e) => {
+
+        e.preventDefault()
 
         let response = await fetch(`${API_URL}/cars`, {
             method: 'post',
@@ -39,7 +40,7 @@ const AddCar = () => {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify({
-             "name": formData.name
+                ...formData
             })
         });
 
@@ -61,20 +62,57 @@ const AddCar = () => {
         <>
             <NavBar />
             <SideBar />
+            <form onSubmit={handleSubmit}>
             <Row className='m-3 float-end' style={{ width: '80%' }}>
-                <Form onSubmit={handleSubmit}>
+                
+                <Col lg='5'>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control onChange={handleChange} name = "name" value={formData.name} required></Form.Control>
+                    </Form.Group>
+                </Col>
 
-                    <Col lg='5'>
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Label>Name</Form.Label>
-                            <Form.Control onChange={handleChange} name = "name" value={formData.name} required></Form.Control>
-                        </Form.Group>
-                    </Col>
+                <Col lg='5'>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Type</Form.Label>
+                        <Form.Control onChange={handleChange} name = "type" value={formData.type}></Form.Control>
+                    </Form.Group>
+                </Col>
 
-                    <Button className='mt-3' variant="primary" type="submit">Save</Button>
+                <Col lg='5'>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Sub Type</Form.Label>
+                        <Form.Control onChange={handleChange} name = "subType" value={formData.subType}></Form.Control>
+                    </Form.Group>
+                </Col>
 
-                </Form>
+                <Col lg='5'>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Color</Form.Label>
+                        <Form.Control onChange={handleChange} name = "color" value={formData.color}></Form.Control>
+                    </Form.Group>
+                </Col>
+
+                <Col lg='5'>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Model</Form.Label>
+                        <Form.Control onChange={handleChange} name = "model" value={formData.model}></Form.Control>
+                    </Form.Group>
+                </Col>
+
+                <Col lg='5'>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Number Plate</Form.Label>
+                        <Form.Control onChange={handleChange} name = "numberPlate" value={formData.numberPlate}></Form.Control>
+                    </Form.Group>
+                </Col>
+
+                <div>
+                    <Button size="lg" className='mt-3 w-25' type='submit' variant="primary">Save</Button>
+                </div>
+
             </Row>
+            </form>
 
         </>
     )
