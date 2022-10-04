@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { Card, Row, Table } from "react-bootstrap";
+import { Card, InputGroup, Row, Table } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import {API_URL} from '../utils/Constant';
+import { Col } from 'react-bootstrap';
+import Form from 'react-bootstrap/Form';
 
 const SingleCar = () => {
 
@@ -12,9 +14,12 @@ const SingleCar = () => {
     const navigate = useNavigate();
 
     const [ car, setCar ] = useState({});
+    const [ formData, setFormData ] = useState({
+        dateFrom: "", dateTo: ""
+    });
 
-    async function fetchCar() {
-        let response = await fetch(`${API_URL}/cars/${params.id}`,{
+    async function fetchCar(filter) {
+        let response = await fetch(`${API_URL}/cars/${params.id}?` + new URLSearchParams(filter),{
             headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
         });
 
@@ -36,11 +41,22 @@ const SingleCar = () => {
     }
 
     useEffect(() => {
-        fetchCar();
-    }, []);
+        fetchCar({...formData});
+    }, [formData]);
 
     const handleDetails = (id) => {
         navigate(`/maintenance/${id}`);
+    }
+
+    const handleDateChange = (e) => {
+        const { name, value } = e.target
+        
+        setFormData(prevFormDate => {
+            return { 
+                ...prevFormDate,
+                [name]: value
+            };
+        })
     }
 
     return (
@@ -49,7 +65,7 @@ const SingleCar = () => {
             <SideBar />
             <Row className='m-3 float-end' style={{ width: '80%' }}>
 
-            <div className='p-0 w-50'>
+            <Col lg className='p-0'>
                 <Card className='mb-3 mt-3'>
                 <Card.Body>
                     <Card.Title className="text-uppercase">{ car.name }</Card.Title>
@@ -71,15 +87,35 @@ const SingleCar = () => {
                     
                 </Card.Body>
                 </Card>
-            </div>
+            </Col>
 
-            <div className="p-0">
-            <Link to={`/maintenance/add?carId=${car._id}&label=${car.name}`}>
-                <Button>
-                    add Maintenance
-                </Button>
-            </Link>
-            </div>
+            <Col>
+                <Link to={`/maintenance/add?carId=${car._id}&label=${car.name}`}>
+                    <Button className='float-end'>
+                        add Maintenance
+                    </Button>
+                </Link>
+            </Col>
+
+            <Row>
+                <Col className='p-0'>
+                    <InputGroup>
+                        <InputGroup.Text id="from-date">
+                            FromDate
+                        </InputGroup.Text>
+                        <Form.Control type="date" name='dateFrom' onChange={handleDateChange} value={formData.dateFrom} aria-describedby="from-date" />
+                    </InputGroup>
+                </Col>
+
+                <Col className='p-0 ms-2'>
+                    <InputGroup>
+                        <InputGroup.Text id="from-date">
+                            ToDate
+                        </InputGroup.Text>
+                        <Form.Control type="date" name='dateTo' onChange={handleDateChange} value={formData.dateTo} aria-describedby="from-date" />
+                    </InputGroup>
+                </Col>
+            </Row>
 
             <Table striped bordered hover className='mt-3'>
                 <thead>
