@@ -49,8 +49,28 @@ const SingleCar = () => {
             <SideBar />
             <Row className='m-3 float-end' style={{ width: '80%' }}>
 
-            <div className="fw-bold fs-4 d-flex justify-content-center text-uppercase">
-                {car.name}
+            <div className='p-0 w-50'>
+                <Card className='mb-3 mt-3'>
+                <Card.Body>
+                    <Card.Title className="text-uppercase">{ car.name }</Card.Title>
+                    <Card.Text>
+                        Type: {car.type}
+                    </Card.Text>
+                    <Card.Text>
+                        Sub Type: {car.subType}
+                    </Card.Text>
+                    <Card.Text>
+                        Color: {car.color}
+                    </Card.Text>
+                    <Card.Text>
+                        Model: {car.model}
+                    </Card.Text>
+                    <Card.Text>
+                        Number Plate: {car.numberPlate}
+                    </Card.Text>
+                    
+                </Card.Body>
+                </Card>
             </div>
 
             <div className="p-0">
