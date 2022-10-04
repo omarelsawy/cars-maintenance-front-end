@@ -54,7 +54,7 @@ const SingleCar = () => {
             </div>
 
             <div className="p-0">
-            <Link to={'/maintenance/add'}>
+            <Link to={`/maintenance/add?carId=${car._id}&label=${car.name}`}>
                 <Button>
                     add Maintenance
                 </Button>
@@ -66,6 +66,7 @@ const SingleCar = () => {
                     <tr>
                         <th>#</th>
                         <th>Date</th>
+                        <th>Description</th>
                         <th>Details</th>
                     </tr>
                 </thead>
@@ -76,6 +77,7 @@ const SingleCar = () => {
                             <tr key={index}>
                                 <td>{ index+1 }</td>
                                 <td>{ new Date(singleMaintenance.createdAt).toLocaleDateString() }</td>
+                                <td>{singleMaintenance.description}</td>
                                 <td><Button onClick={() => handleDetails(singleMaintenance._id)}>details</Button></td>
                             </tr> 
                         )

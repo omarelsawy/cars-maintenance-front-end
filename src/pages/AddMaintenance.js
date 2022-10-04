@@ -6,17 +6,28 @@ import Button from 'react-bootstrap/Button';
 import Select from 'react-select';
 import {API_URL} from '../utils/Constant';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Col } from 'react-bootstrap';
 
 const AddMaintenance = () => {
 
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const carIdQuery = searchParams.get('carId');
+    const labelQuery = searchParams.get('label');
 
     const [ formData, setFormData ] = useState(
-        { carId: "", price: "", description: "" }
+        { price: "", description: "" }
     );
     const [ cars, setCars ] = useState([]);
+
+    let carSelectedInit;
+
+    if(carIdQuery && labelQuery){
+        carSelectedInit = {value: carIdQuery, label: labelQuery};
+    }
+
+    const [ carSelected, setCarSelected ] = useState(carSelectedInit);
 
     async function fetchCars() {
         let response = await fetch(`${API_URL}/cars`,{
@@ -54,7 +65,7 @@ const AddMaintenance = () => {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify({
-             "carId": formData.carId,
+             "carId": carSelected.value,
              "price": formData.price,
              "description": formData.description
             })
@@ -75,12 +86,7 @@ const AddMaintenance = () => {
     }
 
     const handleCarChange = (selected) => {
-        setFormData(prevFormDate => {
-            return { 
-                ...prevFormDate,
-                'carId': selected.value
-            };
-        })
+        setCarSelected(selected)
     }
 
     const handleChange = (event) => {
@@ -111,6 +117,7 @@ const AddMaintenance = () => {
                         options={cars.map(car=>{
                             return {'value': car._id, 'label': car.name}
                         })}
+                        value = {carSelected}
                     />
                 </Col>
 
