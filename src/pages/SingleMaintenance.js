@@ -49,13 +49,13 @@ const SingleMaintenance = () => {
             <Card.Body>
                 <Card.Title>{ maintenance.car?.name }</Card.Title>
                 <Card.Text>
-                    { new Date(maintenance.createdAt).toLocaleDateString() }
+                    Date: { new Date(maintenance.createdAt).toLocaleDateString() }
                 </Card.Text>
                 <Card.Text>
-                    { maintenance.description }
+                    Description: { maintenance.description }
                 </Card.Text>
                 <Card.Text>
-                    { maintenance.price } $
+                    Price: { maintenance.price } $
                 </Card.Text>
             </Card.Body>
             </Card>

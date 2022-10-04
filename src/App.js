@@ -6,6 +6,7 @@ import AddMaintenance from './pages/AddMaintenance';
 import AddCar from './pages/AddCar';
 import ProtectedRoutes from './utils/ProtectedRoutes';
 import SingleMaintenance from './pages/SingleMaintenance';
+import SingleCar from './pages/SingleCar';
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
             <Route path='/maintenance/add' element={ <AddMaintenance /> } />
             <Route path='/cars/add' element={ <AddCar /> } />
             <Route path='/maintenance/:id' element={ <SingleMaintenance /> } />
+            <Route path='/cars/:id' element={ <SingleCar /> } />
           </Route>
           
           <Route path='/login' element={ <Login /> } />
