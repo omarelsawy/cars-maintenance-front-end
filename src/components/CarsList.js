@@ -17,6 +17,7 @@ const CarsList = ({ cars }) => {
                 <tr>
                     <th>#</th>
                     <th>Car</th>
+                    <th>Maintenance</th>
                     <th>Details</th>
                 </tr>
             </thead>
@@ -27,6 +28,7 @@ const CarsList = ({ cars }) => {
                         <tr key={index}>
                             <td>{ index + 1 }</td>
                             <td>{ car.name }</td>
+                            <td>{ car.maintenanceCount }</td>
                             <td><Button onClick={() => handleDetails(car._id)}>details</Button></td>
                         </tr>
                     )
