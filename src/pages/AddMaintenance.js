@@ -17,7 +17,7 @@ const AddMaintenance = () => {
     const labelQuery = searchParams.get('label');
 
     const [ formData, setFormData ] = useState(
-        { price: "", description: "" }
+        { price: "", description: "", image: "" }
     );
     const [ cars, setCars ] = useState([]);
 
@@ -57,18 +57,18 @@ const AddMaintenance = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        let data = new FormData()
+        data.append('price', formData.price);
+        data.append('carId', carSelected.value);
+        data.append('image', formData.image);
+        data.append('description', formData.description);
 
         let response = await fetch(`${API_URL}/maintenance`, {
             method: 'post',
             headers: {
-                'Content-Type':'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
-            body: JSON.stringify({
-             "carId": carSelected.value,
-             "price": formData.price,
-             "description": formData.description
-            })
+            body: data
         });
 
         let status = response.status;
@@ -91,8 +91,16 @@ const AddMaintenance = () => {
 
     const handleChange = (event) => {
 
-        const { name, value } = event.target
+        const name = event.target.name
+        let value
 
+        if(name === 'image'){
+            value = event.target.files[0]
+        }
+        else{
+            value = event.target.value
+        }        
+        
         setFormData(prevFormDate => {
             return { 
                 ...prevFormDate,
@@ -132,6 +140,13 @@ const AddMaintenance = () => {
                 <Form.Group controlId="formBasicDescription" className='mb-3'>
                     <Form.Label>Description</Form.Label>
                     <Form.Control onChange={handleChange} value={formData.description} name="description" as="textarea" rows={3} />
+                </Form.Group>
+                </Col>
+
+                <Col lg='4' className='mt-3'>
+                <Form.Group controlId="formBasicImage" className='mb-3'>
+                    <Form.Label>Image</Form.Label>
+                    <Form.Control type='file' onChange={handleChange} name = "image" ></Form.Control>
                 </Form.Group>
                 </Col>
 

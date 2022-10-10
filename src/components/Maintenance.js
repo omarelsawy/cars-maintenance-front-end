@@ -28,7 +28,7 @@ const Maintenance = ({ maintenanceArr }) => {
                         <tr key={index}>
                             <td>{ index+1 }</td>
                             <td>{ new Date(maintenance.createdAt).toLocaleDateString() }</td>
-                            <td>{ maintenance.car.name }</td>
+                            <td>{ maintenance.car?.name }</td>
                             <td><Button onClick={() => handleDetails(maintenance._id)}>details</Button></td>
                         </tr> 
                     )
