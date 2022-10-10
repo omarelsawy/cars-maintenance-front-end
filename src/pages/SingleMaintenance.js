@@ -46,6 +46,8 @@ const SingleMaintenance = () => {
             <Row className='m-3 float-end' style={{ width: '80%' }}>
 
             <Card>
+            {maintenance.image && <Card.Img className="w-50 mt-3" src={`${API_URL}/${maintenance.image}`} />}    
+            
             <Card.Body>
                 <Card.Title>{ maintenance.car?.name }</Card.Title>
                 <Card.Text>
