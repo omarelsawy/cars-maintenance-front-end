@@ -12,7 +12,7 @@ const NavBar = () => {
     }
 
     return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="lg" sticky="top">
         
             <Navbar.Brand as={Link} to="/">Maintenance</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
