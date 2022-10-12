@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Select from 'react-select';
 import {API_URL} from '../utils/Constant';
+import {API_URL_COMPANY} from '../utils/Constant';
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Col } from 'react-bootstrap';
@@ -30,7 +31,7 @@ const AddMaintenance = () => {
     const [ carSelected, setCarSelected ] = useState(carSelectedInit);
 
     async function fetchCars() {
-        let response = await fetch(`${API_URL}/cars`,{
+        let response = await fetch(`${API_URL_COMPANY}/cars`,{
             headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
         });
 
@@ -63,7 +64,7 @@ const AddMaintenance = () => {
         data.append('image', formData.image);
         data.append('description', formData.description);
 
-        let response = await fetch(`${API_URL}/maintenance`, {
+        let response = await fetch(`${API_URL_COMPANY}/maintenance`, {
             method: 'post',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`

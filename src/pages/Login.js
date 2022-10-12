@@ -49,9 +49,11 @@ const Login = () => {
         let status = response.status;
         let responseJson = await response.json();
         const token = responseJson?.data?.token;
+        const slug = responseJson?.data?.company.slug;
 
         if(status === 200 && token){
             localStorage.setItem("token", token);
+            localStorage.setItem("slug", slug);
             navigate('/');
         }
         else{

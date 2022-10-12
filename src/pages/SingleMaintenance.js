@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import {API_URL} from '../utils/Constant';
+import {API_URL_COMPANY} from '../utils/Constant';
 
 const SingleMaintenance = () => {
 
@@ -14,7 +15,7 @@ const SingleMaintenance = () => {
     const [ maintenance, setMaintenance ] = useState({});
 
     async function fetchMaintenance() {
-        let response = await fetch(`${API_URL}/maintenance/${params.id}`,{
+        let response = await fetch(`${API_URL_COMPANY}/maintenance/${params.id}`,{
             headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
         });
 

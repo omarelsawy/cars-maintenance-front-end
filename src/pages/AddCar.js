@@ -4,12 +4,13 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import {API_URL} from '../utils/Constant';
+import {API_URL_COMPANY} from '../utils/Constant';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Col } from 'react-bootstrap';
 
 const AddCar = () => {
-    
+
     const navigate = useNavigate();
 
     const [ formData, setFormData ] = useState(
@@ -33,7 +34,7 @@ const AddCar = () => {
 
         e.preventDefault()
 
-        let response = await fetch(`${API_URL}/cars`, {
+        let response = await fetch(`${API_URL_COMPANY}/cars`, {
             method: 'post',
             headers: {
                 'Content-Type':'application/json',

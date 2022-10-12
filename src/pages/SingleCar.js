@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import {API_URL} from '../utils/Constant';
+import {API_URL_COMPANY} from '../utils/Constant';
 import { Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 
@@ -19,7 +20,7 @@ const SingleCar = () => {
     });
 
     async function fetchCar(filter) {
-        let response = await fetch(`${API_URL}/cars/${params.id}?` + new URLSearchParams(filter),{
+        let response = await fetch(`${API_URL_COMPANY}/cars/${params.id}?` + new URLSearchParams(filter),{
             headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
         });
 

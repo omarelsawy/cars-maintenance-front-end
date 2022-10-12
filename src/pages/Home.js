@@ -9,6 +9,7 @@ import Select from 'react-select';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {API_URL} from '../utils/Constant';
+import {API_URL_COMPANY} from '../utils/Constant';
 import Paginator from '../components/Paginator';
 
 const Home = () => {
@@ -24,7 +25,7 @@ const Home = () => {
     let pagesCount = Math.ceil(maintenanceCount/perPage)
 
     async function fetchCars() {
-        let response = await fetch(`${API_URL}/cars`,{
+        let response = await fetch(`${API_URL_COMPANY}/cars`,{
             headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
         });
 
@@ -46,7 +47,7 @@ const Home = () => {
     }
 
     async function fetchMaintenance(filter) {
-        let response = await fetch(`${API_URL}/maintenance?` + new URLSearchParams(filter), {
+        let response = await fetch(`${API_URL_COMPANY}/maintenance?` + new URLSearchParams(filter), {
             headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
         });
         let responseJson = await response.json();
