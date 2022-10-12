@@ -57,7 +57,7 @@ const Login = () => {
 
             setTimeout(()=> {
                 navigate('/');
-            }, 500);
+            }, 1000);
         }
         else{
             let error = responseJson?.data?.error
