@@ -118,7 +118,9 @@ const SingleCar = () => {
                 </Col>
             </Row>
 
-            <Table striped bordered hover className='mt-3'>
+            {
+                car?.maintenance?.length ?
+                <Table striped bordered hover className='mt-3'>
                 <thead>
                     <tr>
                         <th>#</th>
@@ -141,7 +143,9 @@ const SingleCar = () => {
                     })}
                     
                 </tbody>
-            </Table>
+                </Table>    
+                :<div className='mt-3'>No maintenance right now</div>
+            }
                 
             </Row>
 

@@ -58,7 +58,10 @@ const Cars = () => {
                 
                 <Row>
                     <Col>
+                        {carsArr.length > 0 ? 
                         <CarsList cars={carsArr} />
+                        : <div className='mt-3'>No cars right now</div>
+                        }
                     </Col>
                 </Row>
                 

@@ -128,8 +128,13 @@ const Home = () => {
                 
                 <Row>
                     <Col>
-                        <Maintenance maintenanceArr={maintenanceArr} />
-                        <Paginator page={page} handlePrev={handlePrev} handleNext={handleNext} />
+                        {maintenanceArr.length > 0 ? 
+                            <>
+                            <Maintenance maintenanceArr={maintenanceArr} />
+                            <Paginator page={page} handlePrev={handlePrev} handleNext={handleNext} />
+                            </>
+                            : <div className='mt-3'>No maintenance right now</div>
+                        }
                     </Col>
                 </Row>
                 
