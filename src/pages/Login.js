@@ -54,7 +54,10 @@ const Login = () => {
         if(status === 200 && token){
             localStorage.setItem("token", token);
             localStorage.setItem("slug", slug);
-            navigate('/');
+
+            setTimeout(()=> {
+                navigate('/');
+            }, 500);
         }
         else{
             let error = responseJson?.data?.error
