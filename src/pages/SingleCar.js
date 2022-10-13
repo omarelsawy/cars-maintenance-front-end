@@ -25,7 +25,7 @@ const SingleCar = () => {
     });
     const [ page, setPage ] = useState(1);
 
-    const perPage = 1;
+    const perPage = 10;
     let pagesCount = Math.ceil(maintenanceCount/perPage)
 
     async function fetchCar(filter) {
