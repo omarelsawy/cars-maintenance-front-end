@@ -14,6 +14,7 @@ import Paginator from '../components/Paginator';
 
 const Home = () => {
 
+    const API_URL_COMPANY_Var = API_URL_COMPANY();
     const navigate = useNavigate();
     const [ cars, setCars ] = useState([]);
     const [ maintenanceArr, setMaintenanceArr ] = useState([]);
@@ -25,7 +26,7 @@ const Home = () => {
     let pagesCount = Math.ceil(maintenanceCount/perPage)
 
     async function fetchCars() {
-        let response = await fetch(`${API_URL_COMPANY}/cars`,{
+        let response = await fetch(`${API_URL_COMPANY_Var}/cars`,{
             headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
         });
 
@@ -47,7 +48,7 @@ const Home = () => {
     }
 
     async function fetchMaintenance(filter) {
-        let response = await fetch(`${API_URL_COMPANY}/maintenance?` + new URLSearchParams(filter), {
+        let response = await fetch(`${API_URL_COMPANY_Var}/maintenance?` + new URLSearchParams(filter), {
             headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
         });
         let responseJson = await response.json();

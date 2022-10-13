@@ -11,6 +11,8 @@ import Form from 'react-bootstrap/Form';
 
 const SingleCar = () => {
 
+    const API_URL_COMPANY_Var = API_URL_COMPANY();
+
     const params = useParams();
     const navigate = useNavigate();
 
@@ -20,7 +22,7 @@ const SingleCar = () => {
     });
 
     async function fetchCar(filter) {
-        let response = await fetch(`${API_URL_COMPANY}/cars/${params.id}?` + new URLSearchParams(filter),{
+        let response = await fetch(`${API_URL_COMPANY_Var}/cars/${params.id}?` + new URLSearchParams(filter),{
             headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
         });
 

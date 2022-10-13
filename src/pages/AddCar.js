@@ -11,6 +11,7 @@ import { Col } from 'react-bootstrap';
 
 const AddCar = () => {
 
+    const API_URL_COMPANY_Var = API_URL_COMPANY();
     const navigate = useNavigate();
 
     const [ formData, setFormData ] = useState(
@@ -34,7 +35,7 @@ const AddCar = () => {
 
         e.preventDefault()
 
-        let response = await fetch(`${API_URL_COMPANY}/cars`, {
+        let response = await fetch(`${API_URL_COMPANY_Var}/cars`, {
             method: 'post',
             headers: {
                 'Content-Type':'application/json',

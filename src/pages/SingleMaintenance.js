@@ -9,13 +9,15 @@ import {API_URL_COMPANY} from '../utils/Constant';
 
 const SingleMaintenance = () => {
 
+    const API_URL_COMPANY_Var = API_URL_COMPANY();
+
     const params = useParams();
     const navigate = useNavigate();
 
     const [ maintenance, setMaintenance ] = useState({});
 
     async function fetchMaintenance() {
-        let response = await fetch(`${API_URL_COMPANY}/maintenance/${params.id}`,{
+        let response = await fetch(`${API_URL_COMPANY_Var}/maintenance/${params.id}`,{
             headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
         });
 

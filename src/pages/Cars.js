@@ -12,11 +12,13 @@ import {API_URL_COMPANY} from '../utils/Constant';
 
 const Cars = () => {
 
+    const API_URL_COMPANY_Var = API_URL_COMPANY();
+
     const navigate = useNavigate();
     const [ carsArr, setCarsArr ] = useState([]);
 
     async function fetchCars() {
-        let response = await fetch(`${API_URL_COMPANY}/cars`,{
+        let response = await fetch(`${API_URL_COMPANY_Var}/cars`,{
             headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
         });
 

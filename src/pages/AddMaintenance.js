@@ -12,6 +12,7 @@ import { Col } from 'react-bootstrap';
 
 const AddMaintenance = () => {
 
+    const API_URL_COMPANY_Var = API_URL_COMPANY();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const carIdQuery = searchParams.get('carId');
@@ -31,7 +32,7 @@ const AddMaintenance = () => {
     const [ carSelected, setCarSelected ] = useState(carSelectedInit);
 
     async function fetchCars() {
-        let response = await fetch(`${API_URL_COMPANY}/cars`,{
+        let response = await fetch(`${API_URL_COMPANY_Var}/cars`,{
             headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
         });
 
@@ -64,7 +65,7 @@ const AddMaintenance = () => {
         data.append('image', formData.image);
         data.append('description', formData.description);
 
-        let response = await fetch(`${API_URL_COMPANY}/maintenance`, {
+        let response = await fetch(`${API_URL_COMPANY_Var}/maintenance`, {
             method: 'post',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
