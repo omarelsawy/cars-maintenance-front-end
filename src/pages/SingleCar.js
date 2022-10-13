@@ -8,6 +8,7 @@ import {API_URL} from '../utils/Constant';
 import {API_URL_COMPANY} from '../utils/Constant';
 import { Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
+import { FaSearch } from 'react-icons/fa';
 
 const SingleCar = () => {
 
@@ -17,6 +18,7 @@ const SingleCar = () => {
     const navigate = useNavigate();
 
     const [ car, setCar ] = useState({});
+    const [ maintenanceCount, setMaintenanceCount ] = useState(0);
     const [ formData, setFormData ] = useState({
         dateFrom: "", dateTo: ""
     });
@@ -31,7 +33,9 @@ const SingleCar = () => {
 
         if(status === 200){
             const carRes = responseJson?.data?.car;
+            const maintenanceCountRes = responseJson?.data?.maintenanceCount;
             setCar(carRes);
+            setMaintenanceCount(maintenanceCountRes);
         }
         else if(status === 401){
             localStorage.removeItem("token");
@@ -104,6 +108,7 @@ const SingleCar = () => {
                 <Col className='p-0'>
                     <InputGroup>
                         <InputGroup.Text id="from-date">
+                            <FaSearch/>
                             FromDate
                         </InputGroup.Text>
                         <Form.Control type="date" name='dateFrom' onChange={handleDateChange} value={formData.dateFrom} aria-describedby="from-date" />
@@ -112,7 +117,8 @@ const SingleCar = () => {
 
                 <Col className='p-0 ms-2'>
                     <InputGroup>
-                        <InputGroup.Text id="from-date">
+                        <InputGroup.Text id="to-date">
+                            <FaSearch/>
                             ToDate
                         </InputGroup.Text>
                         <Form.Control type="date" name='dateTo' onChange={handleDateChange} value={formData.dateTo} aria-describedby="from-date" />
@@ -122,6 +128,9 @@ const SingleCar = () => {
 
             {
                 car?.maintenance?.length ?
+
+                <>
+                <div className='mt-3 p-0'><span className='fw-bold'>maintenance count: {maintenanceCount}</span></div>
                 <Table striped bordered hover className='mt-3'>
                 <thead>
                     <tr>
@@ -145,7 +154,9 @@ const SingleCar = () => {
                     })}
                     
                 </tbody>
-                </Table>    
+                </Table>   
+                </>
+
                 :<div className='mt-3'>No maintenance right now</div>
             }
                 

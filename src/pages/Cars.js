@@ -16,6 +16,7 @@ const Cars = () => {
 
     const navigate = useNavigate();
     const [ carsArr, setCarsArr ] = useState([]);
+    const [ carsCount, setCarsCount ] = useState(0);
 
     async function fetchCars() {
         let response = await fetch(`${API_URL_COMPANY_Var}/cars`,{
@@ -27,7 +28,9 @@ const Cars = () => {
 
         if(status === 200){
             const carsRes = responseJson?.data?.cars;
+            const carsCountRes = responseJson?.data?.count;
             setCarsArr(carsRes);
+            setCarsCount(carsCountRes)
         }
         else if(status === 401){
             localStorage.removeItem("token");
@@ -61,7 +64,12 @@ const Cars = () => {
                 <Row>
                     <Col>
                         {carsArr.length > 0 ? 
+                        
+                        <>
+                        <div className='mt-3'><span className='fw-bold'>cars count: {carsCount}</span></div>
                         <CarsList cars={carsArr} />
+                        </>
+                        
                         : <div className='mt-3'>No cars right now</div>
                         }
                     </Col>

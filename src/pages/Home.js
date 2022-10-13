@@ -128,9 +128,11 @@ const Home = () => {
                 </Col>
                 
                 <Row>
+                    
                     <Col>
                         {maintenanceArr.length > 0 ? 
                             <>
+                            <div className='mt-3'><span className='fw-bold'>maintenance count: {maintenanceCount}</span></div>
                             <Maintenance maintenanceArr={maintenanceArr} />
                             <Paginator page={page} handlePrev={handlePrev} handleNext={handleNext} />
                             </>
