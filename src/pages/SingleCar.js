@@ -9,6 +9,7 @@ import {API_URL_COMPANY} from '../utils/Constant';
 import { Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { FaSearch } from 'react-icons/fa';
+import Paginator from '../components/Paginator';
 
 const SingleCar = () => {
 
@@ -22,6 +23,10 @@ const SingleCar = () => {
     const [ formData, setFormData ] = useState({
         dateFrom: "", dateTo: ""
     });
+    const [ page, setPage ] = useState(1);
+
+    const perPage = 1;
+    let pagesCount = Math.ceil(maintenanceCount/perPage)
 
     async function fetchCar(filter) {
         let response = await fetch(`${API_URL_COMPANY_Var}/cars/${params.id}?` + new URLSearchParams(filter),{
@@ -48,8 +53,12 @@ const SingleCar = () => {
     }
 
     useEffect(() => {
-        fetchCar({...formData});
-    }, [formData]);
+        fetchCar({
+            ...formData,
+            'page': page,
+            'perPage': perPage
+        });
+    }, [formData, page]);
 
     const handleDetails = (id) => {
         navigate(`/maintenance/${id}`);
@@ -64,6 +73,18 @@ const SingleCar = () => {
                 [name]: value
             };
         })
+    }
+
+    const handlePrev = () => {
+        if(page > 1){
+            setPage(prevPage => prevPage-1);
+        }
+    }
+
+    const handleNext = () => {
+        if(page < pagesCount){
+            setPage(prevPage => prevPage+1)
+        }
     }
 
     return (
@@ -154,7 +175,10 @@ const SingleCar = () => {
                     })}
                     
                 </tbody>
-                </Table>   
+                </Table> 
+                <div className="p-0">
+                    <Paginator page={page} handlePrev={handlePrev} handleNext={handleNext} />  
+                </div>
                 </>
 
                 :<div className='mt-3'>No maintenance right now</div>
