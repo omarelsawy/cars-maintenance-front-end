@@ -23,6 +23,11 @@ const SideBar = () => {
                 Cars
                 <Link to="/cars" />
             </MenuItem>
+
+            <MenuItem>
+                Orders
+                <Link to="/orders" />
+            </MenuItem>
             </SubMenu>
         </Menu>
         </ProSidebar>

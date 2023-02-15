@@ -93,40 +93,44 @@ const SingleCar = () => {
             <SideBar />
             <Row className='m-3 float-end' style={{ width: '80%' }}>
 
-            <Col lg className='p-0'>
-                <Card className='mb-3 mt-3'>
-                <Card.Body>
-                    <Card.Title className="text-uppercase">{ car.name }</Card.Title>
-                    <Card.Text>
-                        Type: {car.type}
-                    </Card.Text>
-                    <Card.Text>
-                        Sub Type: {car.subType}
-                    </Card.Text>
-                    <Card.Text>
-                        Color: {car.color}
-                    </Card.Text>
-                    <Card.Text>
-                        Model: {car.model}
-                    </Card.Text>
-                    <Card.Text>
-                        Number Plate: {car.numberPlate}
-                    </Card.Text>
-                    
-                </Card.Body>
-                </Card>
-            </Col>
+            <Row className="p-0">
+                <Col>
+                    <Link to={`/maintenance/add?carId=${car._id}&label=${car.name}`}>
+                        <Button>
+                            add Maintenance
+                        </Button>
+                    </Link>
+                </Col>
+            </Row>
 
-            <Col>
-                <Link to={`/maintenance/add?carId=${car._id}&label=${car.name}`}>
-                    <Button className='float-end'>
-                        add Maintenance
-                    </Button>
-                </Link>
-            </Col>
+            <Row className="p-0">
+                <Col lg>
+                    <Card className='mb-3 mt-3'>
+                    <Card.Body>
+                        <Card.Title className="text-uppercase">{ car.name }</Card.Title>
+                        <Card.Text>
+                            Type: {car.type}
+                        </Card.Text>
+                        <Card.Text>
+                            Sub Type: {car.subType}
+                        </Card.Text>
+                        <Card.Text>
+                            Color: {car.color}
+                        </Card.Text>
+                        <Card.Text>
+                            Model: {car.model}
+                        </Card.Text>
+                        <Card.Text>
+                            Number Plate: {car.numberPlate}
+                        </Card.Text>
+                        
+                    </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
 
-            <Row>
-                <Col className='p-0'>
+            <Row className="p-0">
+                <Col>
                     <InputGroup>
                         <InputGroup.Text id="from-date">
                             <FaSearch/>
@@ -136,7 +140,7 @@ const SingleCar = () => {
                     </InputGroup>
                 </Col>
 
-                <Col className='p-0 ms-2'>
+                <Col className='ms-2'>
                     <InputGroup>
                         <InputGroup.Text id="to-date">
                             <FaSearch/>
@@ -150,36 +154,36 @@ const SingleCar = () => {
             {
                 car?.maintenance?.length ?
 
-                <>
-                <div className='mt-3 p-0'><span className='fw-bold'>maintenance count: {maintenanceCount}</span></div>
-                <Table striped bordered hover className='mt-3'>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Date</th>
-                        <th>Description</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-                <tbody>
+                <Row>
+                    <div className='mt-3 p-0'><span className='fw-bold'>maintenance count: {maintenanceCount}</span></div>
+                    <Table striped bordered hover className='mt-3'>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                    {car?.maintenance?.map((singleMaintenance, index) =>{
-                        return (
-                            <tr key={index}>
-                                <td>{ index+1 }</td>
-                                <td>{ new Date(singleMaintenance.createdAt).toLocaleDateString() }</td>
-                                <td>{singleMaintenance.description}</td>
-                                <td><Button onClick={() => handleDetails(singleMaintenance._id)}>details</Button></td>
-                            </tr> 
-                        )
-                    })}
-                    
-                </tbody>
-                </Table> 
-                <div className="p-0">
-                    <Paginator page={page} handlePrev={handlePrev} handleNext={handleNext} />  
-                </div>
-                </>
+                        {car?.maintenance?.map((singleMaintenance, index) =>{
+                            return (
+                                <tr key={index}>
+                                    <td>{ index+1 }</td>
+                                    <td>{ new Date(singleMaintenance.createdAt).toLocaleDateString() }</td>
+                                    <td>{singleMaintenance.description}</td>
+                                    <td><Button onClick={() => handleDetails(singleMaintenance._id)}>details</Button></td>
+                                </tr> 
+                            )
+                        })}
+                        
+                    </tbody>
+                    </Table> 
+                    <div>
+                        <Paginator page={page} handlePrev={handlePrev} handleNext={handleNext} />  
+                    </div>
+                </Row>
 
                 :<div className='mt-3'>No maintenance right now</div>
             }

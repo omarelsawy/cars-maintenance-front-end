@@ -1,29 +1,31 @@
-import Maintenance from '../components/Maintenance';
+import OrdersList from '../components/OrdersList';
 import NavBar from '../components/NavBar';
+import { Col, Button, InputGroup, Row, Form } from "react-bootstrap";
 import SideBar from '../components/SideBar';
-import Row from 'react-bootstrap/Row';
-import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
-import Col from 'react-bootstrap/Col';
 import Select from 'react-select';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {API_URL} from '../utils/Constant';
 import {API_URL_COMPANY} from '../utils/Constant';
 import Paginator from '../components/Paginator';
+import { FaSearch } from 'react-icons/fa';
 
-const Home = () => {
+const Orders = () => {
 
     const API_URL_COMPANY_Var = API_URL_COMPANY();
     const navigate = useNavigate();
     const [ cars, setCars ] = useState([]);
-    const [ maintenanceArr, setMaintenanceArr ] = useState([]);
+    const [ ordersArr, setOrdersArr ] = useState([]);
     const [ page, setPage ] = useState(1);
-    const [ maintenanceCount, setMaintenanceCount ] = useState(0);
+    const [ ordersCount, setOrdersCount ] = useState(0);
     const [ carSelected, setCarSelected ] = useState();
+    const [ formData, setFormData ] = useState({
+        start: "", end: ""
+    });
 
     const perPage = 10;
-    let pagesCount = Math.ceil(maintenanceCount/perPage)
+    let pagesCount = Math.ceil(ordersCount/perPage)
 
     async function fetchCars() {
         let response = await fetch(`${API_URL_COMPANY_Var}/cars`,{
@@ -47,18 +49,18 @@ const Home = () => {
         }
     }
 
-    async function fetchMaintenance(filter) {
-        let response = await fetch(`${API_URL_COMPANY_Var}/maintenance?` + new URLSearchParams(filter), {
+    async function fetchOrders(filter) {
+        let response = await fetch(`${API_URL_COMPANY_Var}/orders?` + new URLSearchParams(filter), {
             headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
         });
         let responseJson = await response.json();
         let status = response.status;
 
         if(status === 200){
-            const maintenanceRes = responseJson?.data?.maintenance;
-            const maintenanceCountRes = responseJson?.data?.count;
-            setMaintenanceArr(maintenanceRes);
-            setMaintenanceCount(maintenanceCountRes)
+            const ordersRes = responseJson?.data?.orders;
+            const ordersCountRes = responseJson?.data?.count;
+            setOrdersArr(ordersRes);
+            setOrdersCount(ordersCountRes)
         }
         else if(status === 401){
             localStorage.removeItem("token");
@@ -76,6 +78,7 @@ const Home = () => {
 
     useEffect(() => {
         let filter = {
+            ...formData,
             'page': page,
             'perPage': perPage
         }
@@ -84,11 +87,24 @@ const Home = () => {
             filter.carId = carSelected.value
         }
 
-        fetchMaintenance(filter);
-    }, [page, carSelected]);
+        fetchOrders(filter);
+    }, [page, carSelected, formData]);
 
     const handleCarChange = (selected) => {
         setCarSelected(selected)
+    }
+
+    const handleChange = (event) => {
+
+        const { name, value } = event.target
+
+        setFormData(prevFormDate => {
+            return { 
+                ...prevFormDate,
+                [name]: value
+            };
+        })
+
     }
 
     const handlePrev = () => {
@@ -104,24 +120,24 @@ const Home = () => {
     }
 
     return (
-
         <>
             <NavBar />
             <SideBar />
             <Row className='m-3 float-end' style={{ width: '80%' }}>
-                
+
                 <Row>
                     <Col>
-                        <Link to={'/maintenance/add'}>
+                        <Link to={'/orders/add'}>
                             <Button>
-                                add Maintenance
+                                Add Order
                             </Button>
                         </Link>
                     </Col>
                 </Row>
 
                 <Row className='mt-3'>
-                    <Col lg='5'>
+
+                    <Col>
                         <Select
                             onChange={handleCarChange}
                             options={cars?.map(car=>{
@@ -130,28 +146,45 @@ const Home = () => {
                             value = {carSelected}
                         />
                     </Col>
-                </Row>
-                
+
+                    <Col>
+                        <InputGroup>
+                            <InputGroup.Text id="from-date">
+                                <FaSearch/>
+                                FromDate
+                            </InputGroup.Text>
+                            <Form.Control type="date" name='start' onChange={handleChange} value={formData.start} aria-describedby="from-date" />
+                        </InputGroup>
+                    </Col>
+
+                    <Col>
+                        <InputGroup>
+                            <InputGroup.Text id="to-date">
+                                <FaSearch/>
+                                ToDate
+                            </InputGroup.Text>
+                            <Form.Control type="date" name='end' onChange={handleChange} value={formData.end} aria-describedby="from-date" />
+                        </InputGroup>
+                    </Col>
+                </Row>        
+
                 <Row>
                     
                     <Col>
-                        {maintenanceArr.length > 0 ? 
+                        {ordersArr.length > 0 ? 
                             <>
-                            <div className='mt-3'><span className='fw-bold'>maintenance count: {maintenanceCount}</span></div>
-                            <Maintenance maintenanceArr={maintenanceArr} />
+                            <div className='mt-3'><span className='fw-bold'>orders count: {ordersCount}</span></div>
+                            <OrdersList orders={ordersArr} />
                             <Paginator page={page} handlePrev={handlePrev} handleNext={handleNext} />
                             </>
-                            : <div className='mt-3'>No maintenance right now</div>
+                            : <div className='mt-3'>No orders right now</div>
                         }
                     </Col>
                 </Row>
-                
+
             </Row>
-
         </>
-            
     )
-
 }
 
-export default Home
+export default Orders

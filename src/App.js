@@ -7,6 +7,8 @@ import AddCar from './pages/AddCar';
 import ProtectedRoutes from './utils/ProtectedRoutes';
 import SingleMaintenance from './pages/SingleMaintenance';
 import SingleCar from './pages/SingleCar';
+import Orders from './pages/Orders';
+import AddOrder from './pages/AddOrder';
 
 function App() {
 
@@ -21,6 +23,8 @@ function App() {
             <Route path='/cars/add' element={ <AddCar /> } />
             <Route path='/maintenance/:id' element={ <SingleMaintenance /> } />
             <Route path='/cars/:id' element={ <SingleCar /> } />
+            <Route path='/orders' element={ <Orders /> }/>
+            <Route path='/orders/add' element={ <AddOrder /> } />
           </Route>
           
           <Route path='/login' element={ <Login /> } />
