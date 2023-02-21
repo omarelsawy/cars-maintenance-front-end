@@ -15,7 +15,7 @@ const NavBar = () => {
     return (
     <Navbar bg="light" expand="lg" sticky="top">
         
-            <Navbar.Brand as={Link} to="/">Maintenance</Navbar.Brand>
+            <Navbar.Brand as={Link} to="/" className='ms-2'>Maintenance</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">

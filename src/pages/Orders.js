@@ -140,6 +140,7 @@ const Orders = () => {
                     <Col>
                         <Select
                             onChange={handleCarChange}
+                            isClearable={true}
                             options={cars?.map(car=>{
                                 return {'value': car._id, 'label': car.name}
                             })}

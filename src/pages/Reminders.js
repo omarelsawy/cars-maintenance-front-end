@@ -1,29 +1,31 @@
-import Maintenance from '../components/Maintenance';
 import NavBar from '../components/NavBar';
+import { Col, Button, InputGroup, Row, Form } from "react-bootstrap";
 import SideBar from '../components/SideBar';
-import Row from 'react-bootstrap/Row';
-import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
-import Col from 'react-bootstrap/Col';
 import Select from 'react-select';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {API_URL} from '../utils/Constant';
 import {API_URL_COMPANY} from '../utils/Constant';
 import Paginator from '../components/Paginator';
+import { FaSearch } from 'react-icons/fa';
+import RemindersList from '../components/RemindersList';
+import moment from 'moment';
 
-const Home = () => {
+const Reminders = () => {
 
     const API_URL_COMPANY_Var = API_URL_COMPANY();
     const navigate = useNavigate();
     const [ cars, setCars ] = useState([]);
-    const [ maintenanceArr, setMaintenanceArr ] = useState([]);
+    const [ remindersArr, setRemindersArr ] = useState([]);
     const [ page, setPage ] = useState(1);
-    const [ maintenanceCount, setMaintenanceCount ] = useState(0);
+    const [ remindersCount, setRemindersCount ] = useState(0);
     const [ carSelected, setCarSelected ] = useState();
+    const [ formData, setFormData ] = useState({
+        reminderDate: ""
+    });
 
     const perPage = 10;
-    let pagesCount = Math.ceil(maintenanceCount/perPage)
+    let pagesCount = Math.ceil(remindersCount/perPage)
 
     async function fetchCars() {
         let response = await fetch(`${API_URL_COMPANY_Var}/cars`,{
@@ -47,18 +49,18 @@ const Home = () => {
         }
     }
 
-    async function fetchMaintenance(filter) {
-        let response = await fetch(`${API_URL_COMPANY_Var}/maintenance?` + new URLSearchParams(filter), {
+    async function fetchReminders(filter) {
+        let response = await fetch(`${API_URL_COMPANY_Var}/reminders?` + new URLSearchParams(filter), {
             headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
         });
         let responseJson = await response.json();
         let status = response.status;
 
         if(status === 200){
-            const maintenanceRes = responseJson?.data?.maintenance;
-            const maintenanceCountRes = responseJson?.data?.count;
-            setMaintenanceArr(maintenanceRes);
-            setMaintenanceCount(maintenanceCountRes)
+            const remindersRes = responseJson?.data?.reminders;
+            const remindersCountRes = responseJson?.data?.count;
+            setRemindersArr(remindersRes);
+            setRemindersCount(remindersCountRes)
         }
         else if(status === 401){
             localStorage.removeItem("token");
@@ -76,6 +78,7 @@ const Home = () => {
 
     useEffect(() => {
         let filter = {
+            ...formData,
             'page': page,
             'perPage': perPage
         }
@@ -84,11 +87,24 @@ const Home = () => {
             filter.carId = carSelected.value
         }
 
-        fetchMaintenance(filter);
-    }, [page, carSelected]);
+        fetchReminders(filter);
+    }, [page, carSelected, formData]);
 
     const handleCarChange = (selected) => {
         setCarSelected(selected)
+    }
+
+    const handleChange = (event) => {
+
+        const { name, value } = event.target
+
+        setFormData(prevFormDate => {
+            return { 
+                ...prevFormDate,
+                [name]: value
+            };
+        })
+
     }
 
     const handlePrev = () => {
@@ -104,55 +120,65 @@ const Home = () => {
     }
 
     return (
-
         <>
             <NavBar />
             <SideBar />
             <Row className='m-3 float-end' style={{ width: '80%' }}>
-                
+
                 <Row>
                     <Col>
-                        <Link to={'/maintenance/add'}>
+                        <Link to={'/reminders/add'}>
                             <Button>
-                                add Maintenance
+                                Add Reminder
                             </Button>
                         </Link>
                     </Col>
                 </Row>
 
                 <Row className='mt-3'>
-                    <Col lg='5'>
+
+                    <Col>
+                        <InputGroup>
+                            <InputGroup.Text id="from-date">
+                                <FaSearch />
+                                Date
+                            </InputGroup.Text>
+                            <Form.Control type="date" min={ moment().format('YYYY-MM-DD') }
+                                name='reminderDate' onChange={handleChange} value={formData.reminderDate}
+                            />
+                        </InputGroup>
+                    </Col>
+
+                    <Col>
                         <Select
                             onChange={handleCarChange}
                             isClearable={true}
-                            options={cars?.map(car=>{
-                                return {'value': car._id, 'label': car.name}
+                            options={cars?.map(car => {
+                                return { 'value': car._id, 'label': car.name }
                             })}
-                            value = {carSelected}
+                            value={carSelected}
                         />
                     </Col>
+
                 </Row>
-                
+
                 <Row>
-                    
+
                     <Col>
-                        {maintenanceArr.length > 0 ? 
+                        {remindersArr.length > 0 ?
                             <>
-                            <div className='mt-3'><span className='fw-bold'>maintenance count: {maintenanceCount}</span></div>
-                            <Maintenance maintenanceArr={maintenanceArr} />
-                            <Paginator page={page} handlePrev={handlePrev} handleNext={handleNext} />
+                                <div className='mt-3'><span className='fw-bold'>reminders count: {remindersCount}</span></div>
+                                <RemindersList reminders={remindersArr} />
+                                <Paginator page={page} handlePrev={handlePrev} handleNext={handleNext} />
                             </>
-                            : <div className='mt-3'>No maintenance right now</div>
+                            : <div className='mt-3'>No reminders right now</div>
                         }
                     </Col>
                 </Row>
-                
+
             </Row>
-
         </>
-            
     )
-
 }
 
-export default Home
+export default Reminders

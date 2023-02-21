@@ -9,6 +9,9 @@ import SingleMaintenance from './pages/SingleMaintenance';
 import SingleCar from './pages/SingleCar';
 import Orders from './pages/Orders';
 import AddOrder from './pages/AddOrder';
+import SingleOrder from './pages/SingleOrder';
+import Reminders from './pages/Reminders';
+import AddReminder from './pages/AddReminder';
 
 function App() {
 
@@ -17,6 +20,7 @@ function App() {
         <Routes>
           
           <Route element={ <ProtectedRoutes /> }>
+            
             <Route path='/' element={ <Home /> } />
             <Route path='/cars' element={ <Cars /> } />
             <Route path='/maintenance/add' element={ <AddMaintenance /> } />
@@ -25,6 +29,10 @@ function App() {
             <Route path='/cars/:id' element={ <SingleCar /> } />
             <Route path='/orders' element={ <Orders /> }/>
             <Route path='/orders/add' element={ <AddOrder /> } />
+            <Route path='/orders/:id' element={ <SingleOrder /> } />
+            <Route path='/reminders' element={ <Reminders /> }/>
+            <Route path='/reminders/add' element={ <AddReminder /> } />
+
           </Route>
           
           <Route path='/login' element={ <Login /> } />

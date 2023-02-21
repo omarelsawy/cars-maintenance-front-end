@@ -8,26 +8,34 @@ const SideBar = () => {
 
         <ProSidebar className='sidebar'>
         <Menu iconShape="square">
+            
             <MenuItem icon={<FaGem />}>
                 Dashboard
                 <Link to="/" />
             </MenuItem>
             
             <SubMenu title="Components" icon={<FaHeart />}>
-            <MenuItem>
-                Maintenance
-                <Link to="/" />
-            </MenuItem>
+            
+                <MenuItem>
+                    Maintenance
+                    <Link to="/" />
+                </MenuItem>
 
-            <MenuItem>
-                Cars
-                <Link to="/cars" />
-            </MenuItem>
+                <MenuItem>
+                    Cars
+                    <Link to="/cars" />
+                </MenuItem>
 
-            <MenuItem>
-                Orders
-                <Link to="/orders" />
-            </MenuItem>
+                <MenuItem>
+                    Orders
+                    <Link to="/orders" />
+                </MenuItem>
+
+                <MenuItem>
+                    Reminders
+                    <Link to="/reminders" />
+                </MenuItem>
+
             </SubMenu>
         </Menu>
         </ProSidebar>

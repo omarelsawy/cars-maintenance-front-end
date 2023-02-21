@@ -6,9 +6,9 @@ const OrdersList = ({ orders }) => {
 
     const navigate = useNavigate();
 
-    /* const handleDetails = (id) => {
-        navigate(`/cars/${id}`);
-    } */
+    const handleDetails = (id) => {
+        navigate(`/orders/${id}`);
+    }
 
     return (
         
@@ -20,6 +20,7 @@ const OrdersList = ({ orders }) => {
                     <th>Address</th>
                     <th>Start</th>
                     <th>End</th>
+                    <th>Details</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,7 +33,7 @@ const OrdersList = ({ orders }) => {
                             <td>{ order.address }</td>
                             <td>{ new Date(order.start).toLocaleString() }</td>
                             <td>{ new Date(order.end).toLocaleString() }</td>
-                            {/* <td><Button onClick={() => handleDetails(car._id)}>details</Button></td> */}
+                            {<td><Button onClick={() => handleDetails(order._id)}>details</Button></td>}
                         </tr>
                     )
                 })}
