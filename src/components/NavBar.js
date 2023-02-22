@@ -75,6 +75,7 @@ const NavBar = () => {
 
                         </Dropdown.Toggle>
                         
+                        {remindersCount > 0 &&
                         <Dropdown.Menu>
                             <Dropdown.Item>
                             
@@ -92,6 +93,7 @@ const NavBar = () => {
 
                             </Dropdown.Item>
                         </Dropdown.Menu>
+                        }
 
                     </Dropdown>
 
