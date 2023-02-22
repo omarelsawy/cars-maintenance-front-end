@@ -18,7 +18,7 @@ const SideBar = () => {
             
                 <MenuItem>
                     Maintenance
-                    <Link to="/" />
+                    <Link to="/maintenance" />
                 </MenuItem>
 
                 <MenuItem>

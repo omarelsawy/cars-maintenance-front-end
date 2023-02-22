@@ -12,7 +12,7 @@ import {API_URL} from '../utils/Constant';
 import {API_URL_COMPANY} from '../utils/Constant';
 import Paginator from '../components/Paginator';
 
-const Home = () => {
+const MaintenancePage = () => {
 
     const API_URL_COMPANY_Var = API_URL_COMPANY();
     const navigate = useNavigate();
@@ -155,4 +155,4 @@ const Home = () => {
 
 }
 
-export default Home
+export default MaintenancePage

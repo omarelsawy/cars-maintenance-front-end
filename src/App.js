@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
-import Home from './pages/Home';
 import Cars from './pages/Cars';
 import AddMaintenance from './pages/AddMaintenance';
 import AddCar from './pages/AddCar';
@@ -12,6 +11,7 @@ import AddOrder from './pages/AddOrder';
 import SingleOrder from './pages/SingleOrder';
 import Reminders from './pages/Reminders';
 import AddReminder from './pages/AddReminder';
+import MaintenancePage from './pages/Maintenance';
 
 function App() {
 
@@ -21,7 +21,8 @@ function App() {
           
           <Route element={ <ProtectedRoutes /> }>
             
-            <Route path='/' element={ <Home /> } />
+            <Route path='/' element={ <Reminders /> } />
+            <Route path='/maintenance' element={ <MaintenancePage /> } />
             <Route path='/cars' element={ <Cars /> } />
             <Route path='/maintenance/add' element={ <AddMaintenance /> } />
             <Route path='/cars/add' element={ <AddCar /> } />
