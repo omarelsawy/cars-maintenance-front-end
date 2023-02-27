@@ -1,36 +1,42 @@
-import { Button } from 'react-bootstrap';
-import Table from 'react-bootstrap/Table';
- 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
 const RemindersList = ({ reminders }) => {
 
-    return (
-        
-        <Table striped bordered hover className='mt-3'>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Description</th>
-                    <th>Date</th>
-                    <th>Car</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                {reminders.map((reminder, index) =>{
-                    return (
-                        <tr key={index}>
-                            <td>{ index + 1 }</td>
-                            <td>{ reminder.description }</td>
-                            <td>{ new Date(reminder.reminderDate).toLocaleString() }</td>
-                            <td>{ reminder.car?.name }</td>
-                        </tr>
-                    )
-                })}
-                
-            </tbody>
-        </Table>
-
-    )
+  return (
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>#</TableCell>
+            <TableCell>Description</TableCell>
+            <TableCell>Date</TableCell>
+            <TableCell>Car</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {reminders.map((reminder, index) => (
+            <TableRow hover
+              key={index}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {index+1}
+              </TableCell>
+              <TableCell>{reminder.description}</TableCell>
+              <TableCell>{ new Date(reminder.reminderDate).toLocaleString() }</TableCell>
+              <TableCell>{reminder.car?.name}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
 }
 
 export default RemindersList

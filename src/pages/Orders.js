@@ -6,15 +6,18 @@ import { Link } from 'react-router-dom';
 import Select from 'react-select';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {API_URL} from '../utils/Constant';
 import {API_URL_COMPANY} from '../utils/Constant';
 import Paginator from '../components/Paginator';
 import { FaSearch } from 'react-icons/fa';
+import Loader from '../components/Loader';
 
 const Orders = () => {
 
     const API_URL_COMPANY_Var = API_URL_COMPANY();
     const navigate = useNavigate();
+
+    const [ enableLoader, setEnableLoader ] = useState(true);
+
     const [ cars, setCars ] = useState([]);
     const [ ordersArr, setOrdersArr ] = useState([]);
     const [ page, setPage ] = useState(1);
@@ -55,6 +58,8 @@ const Orders = () => {
         });
         let responseJson = await response.json();
         let status = response.status;
+
+        setEnableLoader(false)
 
         if(status === 200){
             const ordersRes = responseJson?.data?.orders;
@@ -107,23 +112,16 @@ const Orders = () => {
 
     }
 
-    const handlePrev = () => {
-        if(page > 1){
-            setPage(prevPage => prevPage-1);
-        }
-    }
-
-    const handleNext = () => {
-        if(page < pagesCount){
-            setPage(prevPage => prevPage+1)
-        }
-    }
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
 
     return (
         <>
             <NavBar />
             <SideBar />
             <Row className='m-3 float-end' style={{ width: '80%' }}>
+            {enableLoader && <Loader />}
 
                 <Row>
                     <Col>
@@ -137,7 +135,7 @@ const Orders = () => {
 
                 <Row className='mt-3'>
 
-                    <Col>
+                    <Col sm='4' style={{color:'black'}}>
                         <Select
                             onChange={handleCarChange}
                             isClearable={true}
@@ -176,7 +174,7 @@ const Orders = () => {
                             <>
                             <div className='mt-3'><span className='fw-bold'>orders count: {ordersCount}</span></div>
                             <OrdersList orders={ordersArr} />
-                            <Paginator page={page} handlePrev={handlePrev} handleNext={handleNext} />
+                            <Paginator pagesCount={pagesCount} handleChangePage={handleChangePage} />
                             </>
                             : <div className='mt-3'>No orders right now</div>
                         }

@@ -10,11 +10,15 @@ import Paginator from '../components/Paginator';
 import { FaSearch } from 'react-icons/fa';
 import RemindersList from '../components/RemindersList';
 import moment from 'moment';
+import Loader from '../components/Loader';
 
 const Reminders = () => {
 
     const API_URL_COMPANY_Var = API_URL_COMPANY();
     const navigate = useNavigate();
+
+    const [ enableLoader, setEnableLoader ] = useState(true);
+
     const [ cars, setCars ] = useState([]);
     const [ remindersArr, setRemindersArr ] = useState([]);
     const [ page, setPage ] = useState(1);
@@ -55,6 +59,8 @@ const Reminders = () => {
         });
         let responseJson = await response.json();
         let status = response.status;
+
+        setEnableLoader(false)
 
         if(status === 200){
             const remindersRes = responseJson?.data?.reminders;
@@ -107,23 +113,16 @@ const Reminders = () => {
 
     }
 
-    const handlePrev = () => {
-        if(page > 1){
-            setPage(prevPage => prevPage-1);
-        }
-    }
-
-    const handleNext = () => {
-        if(page < pagesCount){
-            setPage(prevPage => prevPage+1)
-        }
-    }
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
 
     return (
         <>
             <NavBar />
             <SideBar />
             <Row className='m-3 float-end' style={{ width: '80%' }}>
+            {enableLoader && <Loader />}
 
                 <Row>
                     <Col>
@@ -137,7 +136,7 @@ const Reminders = () => {
 
                 <Row className='mt-3'>
 
-                    <Col>
+                    <Col sm='6'>
                         <InputGroup>
                             <InputGroup.Text id="from-date">
                                 <FaSearch />
@@ -149,7 +148,7 @@ const Reminders = () => {
                         </InputGroup>
                     </Col>
 
-                    <Col>
+                    <Col style={{color:'black'}}>
                         <Select
                             onChange={handleCarChange}
                             isClearable={true}
@@ -168,8 +167,8 @@ const Reminders = () => {
                         {remindersArr.length > 0 ?
                             <>
                                 <div className='mt-3'><span className='fw-bold'>reminders count: {remindersCount}</span></div>
-                                <RemindersList reminders={remindersArr} />
-                                <Paginator page={page} handlePrev={handlePrev} handleNext={handleNext} />
+                                <RemindersList reminders={remindersArr}/>
+                                <Paginator pagesCount={pagesCount} handleChangePage={handleChangePage} />
                             </>
                             : <div className='mt-3'>No reminders right now</div>
                         }

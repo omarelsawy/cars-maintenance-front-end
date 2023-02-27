@@ -7,24 +7,34 @@ import { Link } from 'react-router-dom';
 import Col from 'react-bootstrap/Col';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {API_URL} from '../utils/Constant';
 import {API_URL_COMPANY} from '../utils/Constant';
+import Paginator from '../components/Paginator';
+import Loader from '../components/Loader';
 
 const Cars = () => {
 
     const API_URL_COMPANY_Var = API_URL_COMPANY();
 
     const navigate = useNavigate();
-    const [ carsArr, setCarsArr ] = useState([]);
-    const [ carsCount, setCarsCount ] = useState(0);
 
-    async function fetchCars() {
-        let response = await fetch(`${API_URL_COMPANY_Var}/cars`,{
+    const [ enableLoader, setEnableLoader ] = useState(true);
+
+    const [ carsArr, setCarsArr ] = useState([]);
+    const [ page, setPage ] = useState(1);
+    const [ carsCount, setCarsCount ] = useState(0);
+    
+    const perPage = 10;
+    let pagesCount = Math.ceil(carsCount/perPage)
+
+    async function fetchCars(filter) {
+        let response = await fetch(`${API_URL_COMPANY_Var}/cars?` + new URLSearchParams(filter) ,{
             headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
         });
 
         let responseJson = await response.json();
         let status = response.status;
+        
+        setEnableLoader(false)
 
         if(status === 200){
             const carsRes = responseJson?.data?.cars;
@@ -43,8 +53,16 @@ const Cars = () => {
     }
 
     useEffect(() => {
-        fetchCars();
-    }, []);
+        let filter = {
+            'page': page,
+            'perPage': perPage
+        }
+        fetchCars(filter);
+    }, [page]);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
 
     return (
 
@@ -52,6 +70,7 @@ const Cars = () => {
             <NavBar />
             <SideBar />
             <Row className='m-3 float-end' style={{ width: '80%' }}>
+            {enableLoader && <Loader />}
 
                 <Col>
                     <Link to={'/cars/add'}>
@@ -68,6 +87,7 @@ const Cars = () => {
                         <>
                         <div className='mt-3'><span className='fw-bold'>cars count: {carsCount}</span></div>
                         <CarsList cars={carsArr} />
+                        <Paginator pagesCount={pagesCount} handleChangePage={handleChangePage} />
                         </>
                         
                         : <div className='mt-3'>No cars right now</div>

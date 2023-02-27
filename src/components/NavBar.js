@@ -1,13 +1,21 @@
-import { Badge, Dropdown, Toast, ToastContainer} from 'react-bootstrap';
-import { useEffect, useState } from 'react';
+import { Badge, Dropdown, Toast} from 'react-bootstrap';
+import { useContext, useEffect, useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { useNavigate, Link } from 'react-router-dom';
 import { IoIosNotifications } from 'react-icons/io';
+import { CiDark } from 'react-icons/ci';
+import { MdDarkMode } from 'react-icons/md';
 import {API_URL_COMPANY} from '../utils/Constant';
 import moment from 'moment';
+import IconButton from '@mui/material/IconButton';
+import { useTheme } from '@mui/material/styles';
+import { ThemeContext } from '../App';
 
 const NavBar = () => {
+
+    const themeColor = useContext(ThemeContext);
+    const theme = useTheme();
     const navigate = useNavigate();
 
     const API_URL_COMPANY_Var = API_URL_COMPANY();
@@ -64,6 +72,7 @@ const NavBar = () => {
                     
                     <Nav.Link as={Link} to="/">Home</Nav.Link>
 
+                    {/* notification */}
                     <Dropdown>
 
                         <Dropdown.Toggle variant="link" bsPrefix="p-1">
@@ -81,7 +90,7 @@ const NavBar = () => {
                             
                             {remindersArr.map((reminder, index) =>{
                                 return (
-                                    <Toast>
+                                    <Toast key={index}>
                                         <Toast.Header closeButton={false}>
                                         <strong className="me-auto">{reminder.car?.name}</strong>
                                         <small className="text-muted">{new Date(reminder.reminderDate).toLocaleString()}</small>
@@ -96,6 +105,10 @@ const NavBar = () => {
                         }
 
                     </Dropdown>
+
+                    <IconButton sx={{ ml: 1 }} onClick={themeColor.toggleThemeColor} color="inherit">
+                        {theme.palette.mode === 'light' ? <MdDarkMode /> : <CiDark style={{color:'black'}}/>}
+                    </IconButton>
 
                 </Nav>
 

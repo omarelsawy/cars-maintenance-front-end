@@ -8,14 +8,17 @@ import Col from 'react-bootstrap/Col';
 import Select from 'react-select';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {API_URL} from '../utils/Constant';
 import {API_URL_COMPANY} from '../utils/Constant';
 import Paginator from '../components/Paginator';
+import Loader from '../components/Loader';
 
 const MaintenancePage = () => {
 
     const API_URL_COMPANY_Var = API_URL_COMPANY();
     const navigate = useNavigate();
+
+    const [ enableLoader, setEnableLoader ] = useState(true);
+
     const [ cars, setCars ] = useState([]);
     const [ maintenanceArr, setMaintenanceArr ] = useState([]);
     const [ page, setPage ] = useState(1);
@@ -54,6 +57,8 @@ const MaintenancePage = () => {
         let responseJson = await response.json();
         let status = response.status;
 
+        setEnableLoader(false)
+
         if(status === 200){
             const maintenanceRes = responseJson?.data?.maintenance;
             const maintenanceCountRes = responseJson?.data?.count;
@@ -91,17 +96,9 @@ const MaintenancePage = () => {
         setCarSelected(selected)
     }
 
-    const handlePrev = () => {
-        if(page > 1){
-            setPage(prevPage => prevPage-1);
-        }
-    }
-
-    const handleNext = () => {
-        if(page < pagesCount){
-            setPage(prevPage => prevPage+1)
-        }
-    }
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
 
     return (
 
@@ -109,6 +106,7 @@ const MaintenancePage = () => {
             <NavBar />
             <SideBar />
             <Row className='m-3 float-end' style={{ width: '80%' }}>
+            {enableLoader && <Loader />}
                 
                 <Row>
                     <Col>
@@ -121,7 +119,7 @@ const MaintenancePage = () => {
                 </Row>
 
                 <Row className='mt-3'>
-                    <Col lg='5'>
+                    <Col lg='5' style={{color:'black'}}>
                         <Select
                             onChange={handleCarChange}
                             isClearable={true}
@@ -138,9 +136,9 @@ const MaintenancePage = () => {
                     <Col>
                         {maintenanceArr.length > 0 ? 
                             <>
-                            <div className='mt-3'><span className='fw-bold'>maintenance count: {maintenanceCount}</span></div>
-                            <Maintenance maintenanceArr={maintenanceArr} />
-                            <Paginator page={page} handlePrev={handlePrev} handleNext={handleNext} />
+                                <div className='mt-3'><span className='fw-bold'>maintenance count: {maintenanceCount}</span></div>
+                                <Maintenance maintenanceArr={maintenanceArr} />
+                                <Paginator pagesCount={pagesCount} handleChangePage={handleChangePage} />
                             </>
                             : <div className='mt-3'>No maintenance right now</div>
                         }

@@ -4,19 +4,24 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Select from 'react-select';
-import {API_URL} from '../utils/Constant';
 import {API_URL_COMPANY} from '../utils/Constant';
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Col } from 'react-bootstrap';
+import { Alert } from '@mui/material';
+import Loader from '../components/Loader';
 
 const AddMaintenance = () => {
 
+    const [ alertSuccessCreated, setAlertSuccessCreated ] = useState(false);
     const API_URL_COMPANY_Var = API_URL_COMPANY();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const carIdQuery = searchParams.get('carId');
     const labelQuery = searchParams.get('label');
+
+    const [ disableSubmit, setDisableSubmit ] = useState(false);
+    const [ enableLoader, setEnableLoader ] = useState(false);
 
     const [ formData, setFormData ] = useState(
         { price: "", description: "", image: "" }
@@ -59,6 +64,9 @@ const AddMaintenance = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setDisableSubmit(true)
+        setEnableLoader(true)
+
         let data = new FormData()
         data.append('price', formData.price);
         data.append('carId', carSelected.value);
@@ -76,9 +84,15 @@ const AddMaintenance = () => {
         let status = response.status;
         let responseJson = await response.json();
 
+        setEnableLoader(false)
+
         if(status === 201){
-            alert('success')
-            navigate(-1);
+            
+            setAlertSuccessCreated(true)
+            setTimeout(()=>{
+                navigate(-1);
+            }, 1500)
+
         }
         else{
             let error = responseJson?.data?.error
@@ -117,12 +131,22 @@ const AddMaintenance = () => {
             <NavBar />
             <SideBar />
             <Row className='m-3 float-end' style={{ width: '80%' }}>
-                
+            
+            {alertSuccessCreated && <Alert>success</Alert>}
+            {enableLoader && <Loader />}
+
             <Form onSubmit={handleSubmit}>
 
                 <Col lg='4'>
                     Car
+                    <span style={{color:'red'}}>*</span>
                     <Select
+                        styles={{
+                            option: (baseStyles, state) => ({
+                                ...baseStyles,
+                                color: 'black',
+                            }),
+                        }}
                         onChange={handleCarChange}
                         options={cars.map(car=>{
                             return {'value': car._id, 'label': car.name}
@@ -152,7 +176,7 @@ const AddMaintenance = () => {
                 </Form.Group>
                 </Col>
 
-                <Button className='mt-3' variant="primary" type="submit">Save</Button>
+                <Button disabled={disableSubmit} className='mt-3' variant="primary" type="submit">Save</Button>
 
             </Form>
 

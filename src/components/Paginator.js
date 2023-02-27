@@ -1,17 +1,8 @@
-import { Button } from 'react-bootstrap';
-import { BsFillCaretRightFill, BsFillCaretLeftFill } from 'react-icons/bs';
+import Pagination from '@mui/material/Pagination';
 
-const Paginator = ({ page, handlePrev, handleNext }) => {
+const Paginator = ({ pagesCount, handleChangePage }) => {
     return (
-        <div>
-            <Button onClick={handlePrev}>
-                <BsFillCaretLeftFill />
-            </Button>
-            <span className='m-3'>{page}</span>
-            <Button onClick={handleNext}>
-                <BsFillCaretRightFill />
-            </Button>
-        </div>
+        <Pagination className='m-2' count={pagesCount} onChange={handleChangePage}/>
     )
 }
 

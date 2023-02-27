@@ -1,6 +1,6 @@
-import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import { ProSidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import 'react-pro-sidebar/dist/css/styles.css';
-import { FaGem, FaHeart } from 'react-icons/fa';
+import { FcInTransit, FcWorkflow, FcVoicePresentation, FcServices } from 'react-icons/fc';
 import {Link} from 'react-router-dom';
 
 const SideBar = () => {
@@ -9,34 +9,26 @@ const SideBar = () => {
         <ProSidebar className='sidebar'>
         <Menu iconShape="square">
             
-            <MenuItem icon={<FaGem />}>
-                Dashboard
-                <Link to="/" />
+            <MenuItem active={window.location.pathname === "/maintenance"} icon={<FcServices />}>
+                Maintenance
+                <Link to="/maintenance" />
             </MenuItem>
-            
-            <SubMenu title="Components" icon={<FaHeart />}>
-            
-                <MenuItem>
-                    Maintenance
-                    <Link to="/maintenance" />
-                </MenuItem>
 
-                <MenuItem>
-                    Cars
-                    <Link to="/cars" />
-                </MenuItem>
+            <MenuItem active={window.location.pathname === "/cars"} icon={<FcInTransit />}>
+                Cars
+                <Link to="/cars" />
+            </MenuItem>
 
-                <MenuItem>
-                    Orders
-                    <Link to="/orders" />
-                </MenuItem>
+            <MenuItem active={window.location.pathname === "/orders"} icon={<FcWorkflow />}>
+                Orders
+                <Link to="/orders" />
+            </MenuItem>
 
-                <MenuItem>
-                    Reminders
-                    <Link to="/reminders" />
-                </MenuItem>
+            <MenuItem active={window.location.pathname === "/reminders"} icon={<FcVoicePresentation />}>
+                Reminders
+                <Link to="/reminders" />
+            </MenuItem>
 
-            </SubMenu>
         </Menu>
         </ProSidebar>
 

@@ -6,11 +6,17 @@ import NavBar from "../components/NavBar"
 import SideBar from "../components/SideBar"
 import { API_URL_COMPANY } from "../utils/Constant";
 import moment from 'moment';
+import { Alert } from "@mui/material";
+import Loader from "../components/Loader";
 
 const AddReminder = () => {
 
+    const [ alertSuccessCreated, setAlertSuccessCreated ] = useState(false);
     const API_URL_COMPANY_Var = API_URL_COMPANY();
     const navigate = useNavigate();
+
+    const [ disableSubmit, setDisableSubmit ] = useState(false);
+    const [ enableLoader, setEnableLoader ] = useState(false);
 
     const [ cars, setCars ] = useState([]);
 
@@ -69,6 +75,8 @@ const AddReminder = () => {
     const handleSubmit = async (e) => {
 
         e.preventDefault()
+        setDisableSubmit(true)
+        setEnableLoader(true)
 
         let response = await fetch(`${API_URL_COMPANY_Var}/reminders`, {
             method: 'post',
@@ -84,9 +92,13 @@ const AddReminder = () => {
         let status = response.status;
         let responseJson = await response.json();
 
+        setEnableLoader(false)
+
         if(status === 201){
-            alert('success')
-            navigate(-1);
+            setAlertSuccessCreated(true)
+            setTimeout(()=>{
+                navigate(-1);
+            }, 1500)
         }
         else{
             let error = responseJson?.data?.error
@@ -100,6 +112,8 @@ const AddReminder = () => {
             <NavBar />
             <SideBar />
             <Row className='m-3 float-end' style={{ width: '80%' }}>
+            {alertSuccessCreated && <Alert>success</Alert>}
+            {enableLoader && <Loader />}
                 
             <Form onSubmit={handleSubmit}>
 
@@ -122,6 +136,12 @@ const AddReminder = () => {
                 <Col lg='5'>
                     Car
                     <Select className="mb-3"
+                        styles={{
+                            option: (baseStyles, state) => ({
+                                ...baseStyles,
+                                color: 'black',
+                            }),
+                        }}
                         onChange={handleCarChange}
                         options={cars.map(car=>{
                             return {'value': car._id, 'label': car.name}
@@ -129,7 +149,7 @@ const AddReminder = () => {
                     />
                 </Col>
 
-                <Button className='mt-3' variant="primary" type="submit">Save</Button>
+                <Button disabled={disableSubmit} className='mt-3' variant="primary" type="submit">Save</Button>
 
             </Form>
 

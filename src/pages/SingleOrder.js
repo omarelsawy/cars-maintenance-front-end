@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { Card, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
-import {API_URL} from '../utils/Constant';
-import {API_URL_COMPANY} from '../utils/Constant';
+import { API_URL_COMPANY } from '../utils/Constant';
+
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import Loader from "../components/Loader";
 
 const SingleOrder = () => {
 
@@ -12,26 +15,29 @@ const SingleOrder = () => {
 
     const params = useParams();
     const navigate = useNavigate();
+    const [ enableLoader, setEnableLoader ] = useState(true);
 
-    const [ order, setOrder ] = useState({});
+    const [order, setOrder] = useState({});
 
     async function fetchOrder() {
-        let response = await fetch(`${API_URL_COMPANY_Var}/orders/${params.id}`,{
-            headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
+        let response = await fetch(`${API_URL_COMPANY_Var}/orders/${params.id}`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
 
         let responseJson = await response.json();
         let status = response.status;
 
-        if(status === 200){
+        setEnableLoader(false)
+
+        if (status === 200) {
             const orderRes = responseJson?.data?.order;
             setOrder(orderRes);
         }
-        else if(status === 401){
+        else if (status === 401) {
             localStorage.removeItem("token");
             navigate('/login');
         }
-        else{
+        else {
             let error = responseJson?.data?.error
             error && alert(error);
         }
@@ -45,41 +51,60 @@ const SingleOrder = () => {
         <>
             <NavBar />
             <SideBar />
-            <Row className='m-3 float-end' style={{ width: '80%' }}>
 
-            <Card>            
-            <Card.Body>
-                
-                <Card.Title>{ order.car?.name }</Card.Title>
-                
-                <Card.Text>
-                    Description: { order.description }
-                </Card.Text>
-                
-                <Card.Text>
-                    Start: { new Date(order.start).toLocaleString() }
-                </Card.Text>
 
-                <Card.Text>
-                    End: { new Date(order.end).toLocaleString() }
-                </Card.Text>
+            <Paper
+                sx={{
+                    p: 2,
+                    margin: 'auto',
+                    marginTop:1,
+                    maxWidth: 500,
+                    flexGrow: 1,
+                    backgroundColor: (theme) =>
+                        theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+                }}
+            >
+            {enableLoader && <Loader />}
 
-                <Card.Text>
-                    Address: { order.address }
-                </Card.Text>
+                <Grid container spacing={2}>
 
-                <Card.Text>
-                    Contact: { order.contact }
-                </Card.Text>
+                    <Grid item xs={12} sm container>
+                        <Grid item xs container direction="column" spacing={2}>
+                            <Grid item xs>
+                                <Typography gutterBottom variant="subtitle1" component="div">
+                                    {order.car?.name}
+                                </Typography>
 
-                <Card.Text>
-                    By: { order.creator?.name }
-                </Card.Text>
+                                <Typography variant="body2" color="text.secondary">
+                                    Description: {order.description}
+                                </Typography>
 
-            </Card.Body>
-            </Card>
-                
-            </Row>
+                                <Typography variant="body2" color="text.secondary">
+                                    Start: {new Date(order.start).toLocaleString()}
+                                </Typography>
+
+                                <Typography variant="body2" color="text.secondary">
+                                    End: {new Date(order.end).toLocaleString()}
+                                </Typography>
+
+                                <Typography variant="body2" color="text.secondary">
+                                    Address: {order.address}
+                                </Typography>
+
+                                <Typography variant="body2" color="text.secondary">
+                                    Contact: {order.contact}
+                                </Typography>
+
+                                <Typography variant="body2" color="text.secondary">
+                                    By: {order.creator?.name}
+                                </Typography>
+                            </Grid>
+
+                        </Grid>
+
+                    </Grid>
+                </Grid>
+            </Paper>
 
         </>
     );

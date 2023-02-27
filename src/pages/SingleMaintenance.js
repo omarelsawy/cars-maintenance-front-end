@@ -1,38 +1,55 @@
 import { useEffect, useState } from "react";
-import { Card, Row } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
-import {API_URL} from '../utils/Constant';
-import {API_URL_COMPANY} from '../utils/Constant';
+import { API_URL } from '../utils/Constant';
+import { API_URL_COMPANY } from '../utils/Constant';
+
+import { styled } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import ButtonBase from '@mui/material/ButtonBase';
+import Loader from "../components/Loader";
 
 const SingleMaintenance = () => {
+
+
+    const Img = styled('img')({
+        margin: 'auto',
+        display: 'block',
+        maxWidth: '100%',
+        maxHeight: '100%',
+    });
 
     const API_URL_COMPANY_Var = API_URL_COMPANY();
 
     const params = useParams();
     const navigate = useNavigate();
 
-    const [ maintenance, setMaintenance ] = useState({});
+    const [ enableLoader, setEnableLoader ] = useState(true);
+
+    const [maintenance, setMaintenance] = useState({});
 
     async function fetchMaintenance() {
-        let response = await fetch(`${API_URL_COMPANY_Var}/maintenance/${params.id}`,{
-            headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
+        let response = await fetch(`${API_URL_COMPANY_Var}/maintenance/${params.id}`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
 
         let responseJson = await response.json();
         let status = response.status;
 
-        if(status === 200){
+        setEnableLoader(false)
+
+        if (status === 200) {
             const maintenanceRes = responseJson?.data?.singleMaintenance;
             setMaintenance(maintenanceRes);
         }
-        else if(status === 401){
+        else if (status === 401) {
             localStorage.removeItem("token");
             navigate('/login');
         }
-        else{
+        else {
             let error = responseJson?.data?.error
             error && alert(error);
         }
@@ -46,28 +63,60 @@ const SingleMaintenance = () => {
         <>
             <NavBar />
             <SideBar />
-            <Row className='m-3 float-end' style={{ width: '80%' }}>
 
-            <Card>
-            {maintenance.image && <Card.Img className="w-50 mt-3" src={`${API_URL}/${maintenance.image}`} />}    
-            
-            <Card.Body>
-                <Card.Title>{ maintenance.car?.name }</Card.Title>
-                <Card.Text>
-                    Date: { new Date(maintenance.createdAt).toLocaleDateString() }
-                </Card.Text>
-                <Card.Text>
-                    Description: { maintenance.description }
-                </Card.Text>
-                <Card.Text>
-                    Price: { maintenance.price } $
-                </Card.Text>
-            </Card.Body>
-            </Card>
-                
-            </Row>
+            <Paper
+                sx={{
+                    p: 2,
+                    margin: 'auto',
+                    marginTop:1,
+                    maxWidth: 500,
+                    flexGrow: 1,
+                    backgroundColor: (theme) =>
+                        theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+                }}
+            >
+                {enableLoader && <Loader />}
+
+                <Grid container spacing={2}>
+                    {maintenance.image && 
+                        <Grid item>
+                        <ButtonBase sx={{ width: 200, height: 128 }}>
+                            <Img src={`${API_URL}/${maintenance.image}`} />
+                        </ButtonBase>
+                        </Grid>
+                    }
+                    
+                    <Grid item xs={12} sm container>
+                        <Grid item xs container direction="column" spacing={2}>
+                            <Grid item xs>
+                                <Typography gutterBottom variant="subtitle1" component="div">
+                                    {maintenance.car?.name}
+                                </Typography>
+
+                                <Typography variant="body2" color="text.secondary">
+                                    Description: {maintenance.description}
+                                </Typography>
+
+                                <Typography variant="body2" color="text.secondary">
+                                    Date: {new Date(maintenance.createdAt).toLocaleDateString()}
+                                </Typography>
+                            </Grid>
+
+                        </Grid>
+                        {maintenance.price &&
+                            <Grid item>
+                                <Typography variant="subtitle1" component="div">
+                                    ${maintenance.price}
+                                </Typography>
+                            </Grid>
+                        }
+                    </Grid>
+                </Grid>
+            </Paper>
 
         </>
+
+
     );
 
 }

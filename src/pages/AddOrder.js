@@ -1,15 +1,21 @@
+import { Alert } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap"
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
+import Loader from "../components/Loader";
 import NavBar from "../components/NavBar"
 import SideBar from "../components/SideBar"
 import { API_URL_COMPANY } from "../utils/Constant";
 
 const AddOrder = () => {
 
+    const [ alertSuccessCreated, setAlertSuccessCreated ] = useState(false);
     const API_URL_COMPANY_Var = API_URL_COMPANY();
     const navigate = useNavigate();
+
+    const [ disableSubmit, setDisableSubmit ] = useState(false);
+    const [ enableLoader, setEnableLoader ] = useState(false);
 
     const [ cars, setCars ] = useState([]);
 
@@ -68,6 +74,8 @@ const AddOrder = () => {
     const handleSubmit = async (e) => {
 
         e.preventDefault()
+        setDisableSubmit(true)
+        setEnableLoader(true)
 
         let response = await fetch(`${API_URL_COMPANY_Var}/orders`, {
             method: 'post',
@@ -83,9 +91,13 @@ const AddOrder = () => {
         let status = response.status;
         let responseJson = await response.json();
 
+        setEnableLoader(false)
+
         if(status === 201){
-            alert('success')
-            navigate(-1);
+            setAlertSuccessCreated(true)
+            setTimeout(()=>{
+                navigate(-1);
+            }, 1500)
         }
         else{
             let error = responseJson?.data?.error
@@ -99,12 +111,21 @@ const AddOrder = () => {
             <NavBar />
             <SideBar />
             <Row className='m-3 float-end' style={{ width: '80%' }}>
+            {alertSuccessCreated && <Alert>success</Alert>}
+            {enableLoader && <Loader />}
                 
             <Form onSubmit={handleSubmit}>
 
                 <Col lg='5'>
                     Car
+                    <span style={{color:'red'}}>*</span>
                     <Select className="mb-3"
+                        styles={{
+                            option: (baseStyles, state) => ({
+                                ...baseStyles,
+                                color: 'black',
+                            }),
+                        }}
                         onChange={handleCarChange}
                         options={cars.map(car=>{
                             return {'value': car._id, 'label': car.name}
@@ -148,7 +169,7 @@ const AddOrder = () => {
                     </Form.Group>
                 </Col>
 
-                <Button className='mt-3' variant="primary" type="submit">Save</Button>
+                <Button disabled={disableSubmit} className='mt-3' variant="primary" type="submit">Save</Button>
 
             </Form>
 

@@ -1,15 +1,17 @@
-import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {API_URL} from '../utils/Constant';
-import { Col, Row } from 'react-bootstrap';
+import Loader from '../components/Loader';
 
 const Login = () => {
 
     const token = localStorage.getItem('token');
     const navigate = useNavigate();
+    
+    const [ disableSubmit, setDisableSubmit ] = useState(false);
+    const [ enableLoader, setEnableLoader ] = useState(false);
 
     useEffect(() => {
         if(token){
@@ -36,6 +38,8 @@ const Login = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setDisableSubmit(true)
+        setEnableLoader(true)
 
         let response = await fetch(`${API_URL}/users/get-token`, {
             method: 'post',
@@ -50,6 +54,8 @@ const Login = () => {
         let responseJson = await response.json();
         const token = responseJson?.data?.token;
         const slug = responseJson?.data?.company?.slug;
+
+        setEnableLoader(false)
 
         if(status === 200 && token){
             localStorage.setItem("token", token);
@@ -68,6 +74,7 @@ const Login = () => {
 
     return (
             <Form onSubmit={handleSubmit} className='h-100 d-flex flex-column align-items-center justify-content-center'>
+            {enableLoader && <Loader />}
 
                 <Form.Group controlId="formBasicEmail" className='mb-3'>
                     <Form.Label>Email</Form.Label>
@@ -79,7 +86,7 @@ const Login = () => {
                     <Form.Control onChange={handleChange} name = "password" value={formData.password} type="password" required></Form.Control>
                 </Form.Group>
 
-                <Button variant="primary" type="submit">Login</Button>
+                <Button disabled={disableSubmit} variant="primary" type="submit">Login</Button>
 
             </Form>
     )
