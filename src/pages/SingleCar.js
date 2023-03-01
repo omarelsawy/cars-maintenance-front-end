@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { InputGroup, Row } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import NavBar from "../components/NavBar";
-import SideBar from "../components/SideBar";
 import { API_URL_COMPANY } from '../utils/Constant';
 import { Col } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
@@ -20,6 +18,8 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Loader from "../components/Loader";
+import { Box, Toolbar } from "@mui/material";
+import Layout, { drawerWidth } from "../components/Layout";
 
 const SingleCar = () => {
 
@@ -95,9 +95,17 @@ const SingleCar = () => {
 
     return (
         <>
-            <NavBar />
-            <SideBar />
-            <Row className='m-3 float-end' style={{ width: '80%' }}>
+            <Box sx={{ display: "flex" }}>
+        <Layout />
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            p: 3,
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+          }}
+        >
+          <Toolbar />
             {enableLoader && <Loader />}
 
                 <Row className="p-0">
@@ -220,7 +228,8 @@ const SingleCar = () => {
                         : <div className='mt-3'>No maintenance right now</div>
                 }
 
-            </Row>
+            </Box>
+            </Box>
 
         </>
     );

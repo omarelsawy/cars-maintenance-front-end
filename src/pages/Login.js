@@ -73,7 +73,16 @@ const Login = () => {
     }
 
     return (
-            <Form onSubmit={handleSubmit} className='h-100 d-flex flex-column align-items-center justify-content-center'>
+
+            <Form onSubmit={handleSubmit} className='d-flex flex-column align-items-center justify-content-center'
+                style={{
+                    height: '100vh',
+                    backgroundImage: `url(images/akX8JA.png)`,
+                    backgroundPosition: 'center',
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat'
+                }}
+            >
             {enableLoader && <Loader />}
 
                 <Form.Group controlId="formBasicEmail" className='mb-3'>
@@ -89,6 +98,7 @@ const Login = () => {
                 <Button disabled={disableSubmit} variant="primary" type="submit">Login</Button>
 
             </Form>
+
     )
 
 }
