@@ -152,7 +152,7 @@ const Reminders = () => {
               </InputGroup>
             </Col>
 
-            <Col style={{ color: "black" }}>
+            <Col style={{ color: "black", zIndex: "3" }}>
               <Select
                 onChange={handleCarChange}
                 isClearable={true}

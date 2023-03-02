@@ -136,7 +136,7 @@ const Orders = () => {
           </Row>
 
           <Row className="mt-3">
-            <Col sm="4" style={{ color: "black" }}>
+            <Col sm="4" style={{ color: "black", zIndex: "3" }}>
               <Select
                 onChange={handleCarChange}
                 isClearable={true}

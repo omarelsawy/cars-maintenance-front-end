@@ -121,7 +121,7 @@ const MaintenancePage = () => {
           </Row>
 
           <Row className="mt-3">
-            <Col lg="5" style={{ color: "black" }}>
+            <Col lg="5" style={{ color: "black", zIndex: "3" }}>
               <Select
                 onChange={handleCarChange}
                 isClearable={true}
