@@ -116,7 +116,7 @@ const Reminders = () => {
   return (
     <>
       <Box sx={{ display: "flex" }}>
-        <Layout />
+        <Layout title={'Reminders'}/>
         <Box
           component="main"
           sx={{

@@ -48,7 +48,7 @@ const SingleOrder = () => {
   return (
     <>
       <Box sx={{ display: "flex" }}>
-        <Layout />
+        <Layout title={'Orders'}/>
         <Box
           component="main"
           sx={{
@@ -65,17 +65,14 @@ const SingleOrder = () => {
               margin: "auto",
               marginTop: 1,
               maxWidth: 500,
-              flexGrow: 1,
               backgroundColor: (theme) =>
                 theme.palette.mode === "dark" ? "#1A2027" : "#fff",
             }}
           >
             {enableLoader && <Loader />}
 
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm container>
-                <Grid item xs container direction="column" spacing={2}>
-                  <Grid item xs>
+              
+                  <Grid>
                     <Typography
                       gutterBottom
                       variant="subtitle1"
@@ -89,11 +86,11 @@ const SingleOrder = () => {
                     </Typography>
 
                     <Typography variant="body2" color="text.secondary">
-                      Start: {new Date(order.start).toLocaleString()}
+                      Start: {order.start && new Date(order.start).toLocaleString()}
                     </Typography>
 
                     <Typography variant="body2" color="text.secondary">
-                      End: {new Date(order.end).toLocaleString()}
+                      End: {order.end && new Date(order.end).toLocaleString()}
                     </Typography>
 
                     <Typography variant="body2" color="text.secondary">
@@ -108,9 +105,7 @@ const SingleOrder = () => {
                       By: {order.creator?.name}
                     </Typography>
                   </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
+          
           </Paper>
         </Box>
       </Box>

@@ -101,7 +101,7 @@ const MaintenancePage = () => {
   return (
     <>
       <Box sx={{ display: "flex" }}>
-        <Layout />
+        <Layout title={'Maintenance'}/>
         <Box
           component="main"
           sx={{

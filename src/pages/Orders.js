@@ -116,7 +116,7 @@ const Orders = () => {
   return (
     <>
       <Box sx={{ display: "flex" }}>
-        <Layout />
+        <Layout title={'Orders'}/>
         <Box
           component="main"
           sx={{

@@ -18,14 +18,14 @@ const CarsList = ({ cars }) => {
     }
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <TableContainer sx={{ maxHeight: 600 }} component={Paper}>
+      <Table stickyHeader aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>#</TableCell>
-            <TableCell>Car</TableCell>
-            <TableCell>Maintenance</TableCell>
-            <TableCell>Details</TableCell>
+            <TableCell className="fw-bold">#</TableCell>
+            <TableCell className="fw-bold">Car</TableCell>
+            <TableCell className="fw-bold">Maintenance</TableCell>
+            <TableCell className="fw-bold">Details</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -34,7 +34,7 @@ const CarsList = ({ cars }) => {
               key={index}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
+              <TableCell>
                 {index+1}
               </TableCell>
               <TableCell>{car.name}</TableCell>

@@ -9,8 +9,8 @@ import Paper from '@mui/material/Paper';
 const RemindersList = ({ reminders }) => {
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <TableContainer sx={{ maxHeight: 600 }} component={Paper}>
+      <Table stickyHeader aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>#</TableCell>

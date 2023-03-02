@@ -67,7 +67,7 @@ const Cars = () => {
   return (
     <>
       <Box sx={{ display: "flex" }}>
-        <Layout />
+        <Layout title={'Cars'}/>
         <Box
           component="main"
           sx={{

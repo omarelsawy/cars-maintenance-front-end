@@ -26,7 +26,7 @@ import { ThemeContext } from '../App';
 
 export const drawerWidth = 240;
 
-const Layout = () => {
+const Layout = ({title}) => {
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -147,8 +147,8 @@ const Layout = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap sx={{ flexGrow: 1 }}>
-            Cars
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            {title}
           </Typography>
           
           {/* theme */}

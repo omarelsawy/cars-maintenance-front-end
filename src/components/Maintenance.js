@@ -17,14 +17,14 @@ const Maintenance = ({ maintenanceArr }) => {
     }
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <TableContainer sx={{ maxHeight: 600 }} component={Paper}>
+      <Table stickyHeader aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>#</TableCell>
-            <TableCell>Date</TableCell>
-            <TableCell>Car</TableCell>
-            <TableCell>Details</TableCell>
+            <TableCell className="fw-bold">#</TableCell>
+            <TableCell className="fw-bold">Date</TableCell>
+            <TableCell className="fw-bold">Car</TableCell>
+            <TableCell className="fw-bold">Details</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

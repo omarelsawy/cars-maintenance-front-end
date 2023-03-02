@@ -17,16 +17,16 @@ const OrdersList = ({ orders }) => {
     }
 
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableContainer sx={{ maxHeight: 600 }} component={Paper}>
+            <Table stickyHeader aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell>#</TableCell>
-                        <TableCell>Car</TableCell>
-                        <TableCell>Address</TableCell>
-                        <TableCell>Start</TableCell>
-                        <TableCell>End</TableCell>
-                        <TableCell>Details</TableCell>
+                        <TableCell className="fw-bold">#</TableCell>
+                        <TableCell className="fw-bold">Car</TableCell>
+                        <TableCell className="fw-bold">Address</TableCell>
+                        <TableCell className="fw-bold">Start</TableCell>
+                        <TableCell className="fw-bold">End</TableCell>
+                        <TableCell className="fw-bold">Details</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

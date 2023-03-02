@@ -62,7 +62,7 @@ const SingleMaintenance = () => {
   return (
     <>
       <Box sx={{ display: "flex" }}>
-        <Layout />
+        <Layout title={'Maintenance'}/>
         <Box
           component="main"
           sx={{
@@ -95,9 +95,8 @@ const SingleMaintenance = () => {
                 </Grid>
               )}
 
-              <Grid item xs={12} sm container>
-                <Grid item xs container direction="column" spacing={2}>
-                  <Grid item xs>
+              <Grid item container>
+                <Grid item xs>
                     <Typography
                       gutterBottom
                       variant="subtitle1"
@@ -114,7 +113,6 @@ const SingleMaintenance = () => {
                       Date:{" "}
                       {new Date(maintenance.createdAt).toLocaleDateString()}
                     </Typography>
-                  </Grid>
                 </Grid>
                 {maintenance.price && (
                   <Grid item>
