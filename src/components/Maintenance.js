@@ -36,7 +36,7 @@ const Maintenance = ({ maintenanceArr }) => {
               <TableCell component="th" scope="row">
                 {index+1}
               </TableCell>
-              <TableCell>{ new Date(maintenance.createdAt).toLocaleDateString() }</TableCell>
+              <TableCell>{ new Date(maintenance.maintenanceDate).toLocaleDateString() }</TableCell>
               <TableCell>{ maintenance.car?.name }</TableCell>
               <TableCell><Button onClick={() => handleDetails(maintenance._id)}>details</Button></TableCell>
             </TableRow>

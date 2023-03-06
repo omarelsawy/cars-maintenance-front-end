@@ -218,7 +218,7 @@ const SingleCar = () => {
                           {index + 1}
                         </TableCell>
                         <TableCell>
-                          {new Date(maintenance.createdAt).toLocaleDateString()}
+                          {new Date(maintenance.maintenanceDate).toLocaleDateString()}
                         </TableCell>
                         <TableCell>{maintenance.description}</TableCell>
                         <TableCell>

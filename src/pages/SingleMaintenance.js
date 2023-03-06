@@ -111,7 +111,7 @@ const SingleMaintenance = () => {
 
                     <Typography variant="body2" color="text.secondary">
                       Date:{" "}
-                      {new Date(maintenance.createdAt).toLocaleDateString()}
+                      {new Date(maintenance.maintenanceDate).toLocaleDateString()}
                     </Typography>
                 </Grid>
                 {maintenance.price && (

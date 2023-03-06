@@ -21,8 +21,9 @@ const AddMaintenance = () => {
   const [enableLoader, setEnableLoader] = useState(false);
 
   const [formData, setFormData] = useState({
-    price: "",
     description: "",
+    maintenanceDate: "",
+    price: "",
     image: "",
   });
   const [cars, setCars] = useState([]);
@@ -69,6 +70,7 @@ const AddMaintenance = () => {
     data.append("carId", carSelected.value);
     data.append("image", formData.image);
     data.append("description", formData.description);
+    data.append("maintenanceDate", formData.maintenanceDate);
 
     let response = await fetch(`${API_URL_COMPANY_Var}/maintenance`, {
       method: "post",
@@ -153,19 +155,9 @@ const AddMaintenance = () => {
             </Col>
 
             <Col lg="4" className="mt-3">
-              <Form.Group controlId="formBasicPrice" className="mb-3">
-                <Form.Label>Price</Form.Label>
-                <Form.Control
-                  onChange={handleChange}
-                  name="price"
-                  value={formData.price}
-                ></Form.Control>
-              </Form.Group>
-            </Col>
-
-            <Col lg="4" className="mt-3">
-              <Form.Group controlId="formBasicDescription" className="mb-3">
+              <Form.Group controlId="formBasicDescription">
                 <Form.Label>Description</Form.Label>
+                <span style={{ color: "red" }}>*</span>
                 <Form.Control
                   onChange={handleChange}
                   value={formData.description}
@@ -177,7 +169,32 @@ const AddMaintenance = () => {
             </Col>
 
             <Col lg="4" className="mt-3">
-              <Form.Group controlId="formBasicImage" className="mb-3">
+              <Form.Group >
+                <Form.Label>Date</Form.Label>
+                <span style={{ color: "red" }}>*</span>
+                <Form.Control
+                  type="datetime-local"
+                  onChange={handleChange}
+                  name="maintenanceDate"
+                  value={formData.maintenanceDate}
+                  required
+                ></Form.Control>
+              </Form.Group>
+            </Col>
+
+            <Col lg="4" className="mt-3">
+              <Form.Group controlId="formBasicPrice">
+                <Form.Label>Price</Form.Label>
+                <Form.Control
+                  onChange={handleChange}
+                  name="price"
+                  value={formData.price}
+                ></Form.Control>
+              </Form.Group>
+            </Col>
+
+            <Col lg="4" className="mt-3">
+              <Form.Group controlId="formBasicImage">
                 <Form.Label>Image</Form.Label>
                 <Form.Control
                   type="file"

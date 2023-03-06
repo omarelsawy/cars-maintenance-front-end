@@ -87,9 +87,9 @@ const AddCar = () => {
 
             <Col lg="5">
               <Form.Group className="mb-3">
-                <Form.Label>Name</Form.Label>
+                <Form.Label>Car Name</Form.Label>
                 <span style={{ color: "red" }}>*</span>
-                <Form.Control
+                <Form.Control placeholder="example: nissan sunny black 2012"
                   onChange={handleChange}
                   name="name"
                   value={formData.name}
@@ -156,8 +156,7 @@ const AddCar = () => {
             <div>
               <Button
                 disabled={disableSubmit}
-                size="lg"
-                className="mt-3 w-25"
+                className="mt-3"
                 type="submit"
                 variant="primary"
               >
