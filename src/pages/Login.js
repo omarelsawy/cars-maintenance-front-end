@@ -46,7 +46,8 @@ const Login = () => {
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify({
              "email": formData.email,
-             "password": formData.password
+             "password": formData.password,
+             "webPushToken": localStorage.getItem("webPushToken")
             })
         });
 

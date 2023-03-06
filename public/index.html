@@ -41,6 +41,16 @@
   <script>
     if (typeof navigator.serviceWorker !== 'undefined') {
       navigator.serviceWorker.register('sw.js')
+        .then((registration) => {
+          registration.pushManager
+          .subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: 'BMZQhXdM_H3f37uqSpj9JsZotaYzGxM0f73UEAUVJyrR35yQHQ91rb4HW97sUEKBaBClxdom16rADt4ybim-UCQ',
+          })
+          .then((push) => {
+            localStorage.setItem("webPushToken", JSON.stringify(push));
+          })
+      })
     }
   </script>
 </html>
